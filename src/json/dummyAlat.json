@@ -1,0 +1,42 @@
+{
+  "code": 200,
+  "message": "Successful add feedback",
+  "data": [
+    {
+      "productName": "Alat Produksi 1",
+      "quantity": 5,
+      "price": 200000,
+      "image": ""
+    },
+    {
+      "productName": "Alat Produksi 2",
+      "quantity": 20,
+      "price": 200000,
+      "image": ""
+    },
+    {
+      "productName": "Alat Produksi 3",
+      "quantity": 200,
+      "price": 200000,
+      "image": ""
+    },
+    {
+      "productName": "Alat Produksi 4",
+      "quantity": 7,
+      "price": 200000,
+      "image": ""
+    },
+    {
+      "productName": "Alat Produksi 5",
+      "quantity": 28,
+      "price": 200000,
+      "image": ""
+    },
+    {
+      "productName": "Alat Produksi 6",
+      "quantity": 40,
+      "price": 200000,
+      "image": ""
+    }
+  ]
+}
