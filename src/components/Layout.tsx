@@ -1,21 +1,26 @@
 import React, { FC } from 'react';
+import Navbar from './Navbar';
+import Footer from './Footer';
 
 interface Props {
   children?: React.ReactNode;
   id?: string;
   addClass?: string;
   chose: string;
+  navType?: string;
 }
 
-const Layout: FC<Props> = ({ children, chose, id, addClass }) => {
+const Layout: FC<Props> = ({ children, chose, id, addClass, navType }) => {
   return (
     <>
       {chose === 'layout' ? (
         <>
           <div className="w-full min-h-screen flex flex-col">
+            <Navbar styled={navType} />
             <div className="h-full w-full flex flex-col items-center justify-center">
               {children}
             </div>
+            <Footer />
           </div>
         </>
       ) : (

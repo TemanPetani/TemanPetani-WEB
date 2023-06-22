@@ -1,0 +1,42 @@
+{
+  "code": 200,
+  "message": "Successful add feedback",
+  "data": [
+    {
+      "productName": "Gabah 1",
+      "quantity": 5,
+      "price": 200000,
+      "image": ""
+    },
+    {
+      "productName": "Gabah 2",
+      "quantity": 20,
+      "price": 200000,
+      "image": ""
+    },
+    {
+      "productName": "Gabah 3",
+      "quantity": 200,
+      "price": 200000,
+      "image": ""
+    },
+    {
+      "productName": "Gabah 4",
+      "quantity": 7,
+      "price": 200000,
+      "image": ""
+    },
+    {
+      "productName": "Gabah 5",
+      "quantity": 28,
+      "price": 200000,
+      "image": ""
+    },
+    {
+      "productName": "Gabah 6",
+      "quantity": 40,
+      "price": 200000,
+      "image": ""
+    }
+  ]
+}
