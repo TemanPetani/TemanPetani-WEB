@@ -200,8 +200,10 @@ export const InputPass: FC<InputProps> = ({
 
         {type === 'password' && (
           <button
+            type="button"
+            id="button-type-password"
             className="absolute right-3 top-1/2 transform -translate-y-1/2"
-            onClick={handleTogglePassword}
+            onClick={() => handleTogglePassword()}
           >
             {showPassword ? (
               <div>

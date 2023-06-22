@@ -4,6 +4,8 @@ import Homepage from '../pages/Homepage';
 import ScrollToTop from '../components/ScrollToTop';
 import Landing from '../pages/Landing';
 import Login from '../pages/Login';
+import Register from '../pages/Register';
+import NotFound from '../pages/NotFound';
 
 const Router = () => {
   return (
@@ -21,6 +23,14 @@ const Router = () => {
         <Route
           path="/login"
           element={<Login />}
+        />
+        <Route
+          path="/register"
+          element={<Register />}
+        />
+        <Route
+          path="*"
+          element={<NotFound />}
         />
       </Routes>
     </BrowserRouter>
