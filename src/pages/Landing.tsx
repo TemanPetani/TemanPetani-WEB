@@ -24,7 +24,7 @@ const Landing = () => {
     >
       <Layout
         chose="section"
-        addClass=" h-screen -mt-[67px]"
+        addClass=" h-screen -mt-[67px] xl:-mt-[64px]"
         id="section-welcome"
       >
         <div
@@ -44,7 +44,7 @@ const Landing = () => {
               </p>
             </div>
 
-            <p className="text-xl text-base-100 font-norma md:drop-shadow-lg">
+            <p className="text-xl text-base-100 font-norma md:drop-shadow-lg  w-4/5">
               Teman Petani akan membantu Anda dalam bertani dan berkebun! Apakah
               Anda sedang mencari solusi terbaik untuk meningkatkan
               produktivitas dan hasil panen di lahan pertanian atau kebun Anda?

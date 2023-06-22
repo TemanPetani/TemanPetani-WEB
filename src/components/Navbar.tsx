@@ -42,7 +42,7 @@ const Navbar: FC<Props> = ({ styled }) => {
   return (
     <div
       className={`navbar px-16 sticky top-0 z-50 shadow-xl, ${
-        styled === 'glass' ? `bg-base-300/20 backdrop-blur-sm` : 'bg-primary'
+        styled === 'glass' ? `bg-neutral/30 backdrop-blur-sm` : 'bg-primary'
       } `}
     >
       <div className="flex-1">
@@ -58,54 +58,71 @@ const Navbar: FC<Props> = ({ styled }) => {
         </Link>
       </div>
       <div className="flex-none gap-2">
-        <div className="dropdown dropdown-end">
-          <label
-            tabIndex={0}
-            className="btn btn-ghost btn-circle avatar "
-          >
-            <div className="w-10 rounded-full border-2 border-base-100">
-              <img
-                src={
-                  !ckPP || ckPP === null || ckPP === undefined
-                    ? placeholder
-                    : ckPP
-                }
-                alt={`User's profile picture`}
-                className="h-10 w-10 border-spacing-1 rounded-full object-cover object-center"
-              />
-            </div>
-          </label>
-          <ul
-            tabIndex={0}
-            className="mt-3 p-2 shadow menu menu-md dropdown-content bg-base-200 rounded-box w-40 gap-1"
-          >
-            {' '}
-            {ckRole === 'hoster' ? (
-              <>
+        {styled === 'glass' ? (
+          <>
+            <Link
+              to="/register"
+              className="btn btn-secondary btn-outline w-32"
+            >
+              register
+            </Link>
+            <Link
+              to="/login"
+              className="btn btn-secondary w-32"
+            >
+              Login
+            </Link>
+          </>
+        ) : (
+          <div className="dropdown dropdown-end">
+            <label
+              tabIndex={0}
+              className="btn btn-ghost btn-circle avatar "
+            >
+              <div className="w-10 rounded-full border-2 border-base-100">
+                <img
+                  src={
+                    !ckPP || ckPP === null || ckPP === undefined
+                      ? placeholder
+                      : ckPP
+                  }
+                  alt={`User's profile picture`}
+                  className="h-10 w-10 border-spacing-1 rounded-full object-cover object-center"
+                />
+              </div>
+            </label>
+            <ul
+              tabIndex={0}
+              className="mt-3 p-2 shadow menu menu-md dropdown-content bg-base-200 rounded-box w-40 gap-1"
+            >
+              {' '}
+              {ckRole === 'hoster' ? (
+                <>
+                  <li>
+                    <Link to="/hosting">Add Homestay</Link>
+                  </li>
+                  <li>
+                    <Link to="/myhosting">My Homestay</Link>
+                  </li>
+                </>
+              ) : (
                 <li>
-                  <Link to="/hosting">Add Homestay</Link>
+                  <Link to="/validate">Become Hoster</Link>
                 </li>
-                <li>
-                  <Link to="/myhosting">My Homestay</Link>
-                </li>
-              </>
-            ) : (
+              )}
+              <div className="divider my-0.5"></div>
               <li>
-                <Link to="/validate">Become Hoster</Link>
+                <Link to="/trip">My Reservation</Link>
               </li>
-            )}
-            <div className="divider my-0.5"></div>
-            <li>
-              <Link to="/trip">My Reservation</Link>
-            </li>
-            <li>
-              <Link to="/profile">Profile</Link>
-            </li>
-            <li>
-              <a onClick={() => handleLogout()}>Logout</a>
-            </li>
-          </ul>
-        </div>
+              <li>
+                <Link to="/profile">Profile</Link>
+              </li>
+              <li>
+                <a onClick={() => handleLogout()}>Logout</a>
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import Navbar from './Navbar';
+import Footer from './Footer';
 
 interface Props {
   children?: React.ReactNode;
@@ -19,6 +20,7 @@ const Layout: FC<Props> = ({ children, chose, id, addClass, navType }) => {
             <div className="h-full w-full flex flex-col items-center justify-center">
               {children}
             </div>
+            <Footer />
           </div>
         </>
       ) : (

@@ -29,7 +29,7 @@ const CardLanding: FC<CardLandingType> = ({ image, text, onClick }) => {
             </button>
           </div>
         ) : (
-          <></>
+          <div></div>
         )}
       </div>
     </div>
