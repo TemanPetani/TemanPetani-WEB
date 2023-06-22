@@ -35,6 +35,7 @@ const ScrollToTopButton: FC<ScrollTopType> = ({ first, second }) => {
   };
   return (
     <button
+      id="button-back-to-top"
       className={`fixed bottom-4 right-4 p-3 rounded-full btn btn-circle bg-primary text-lg text-primary-content hover:bg-primary-focus flex justify-center items-center ${
         showButton ? 'block' : 'hidden'
       }`}

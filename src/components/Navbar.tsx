@@ -49,6 +49,7 @@ const Navbar: FC<Props> = ({ styled }) => {
         <Link
           to={'/'}
           className="btn btn-ghost normal-case text-xl w-52 hover:bg-inherit"
+          id="navbar-button-home"
         >
           <img
             src={styled === 'glass' ? NavLogGreen : NavLogWhite}
@@ -61,12 +62,14 @@ const Navbar: FC<Props> = ({ styled }) => {
         {styled === 'glass' ? (
           <>
             <Link
+              id="navbar-to-register"
               to="/register"
               className="btn btn-secondary btn-outline w-32"
             >
               register
             </Link>
             <Link
+              id="navbar-to-login"
               to="/login"
               className="btn btn-secondary w-32"
             >
