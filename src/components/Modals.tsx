@@ -3,9 +3,10 @@ import React, { FC } from 'react';
 interface Props {
   children?: React.ReactNode;
   id?: string;
+  wide?: string;
 }
 
-export const Modals: FC<Props> = ({ children, id }) => {
+export const Modals: FC<Props> = ({ children, id, wide }) => {
   return (
     <>
       <input
@@ -14,7 +15,11 @@ export const Modals: FC<Props> = ({ children, id }) => {
         className="modal-toggle"
       />
       <div className="modal">
-        <div className="modal-box">{children}</div>
+        <div
+          className={`modal-box ${wide === 'wide' ? 'w-11/12 max-w-5xl' : ''}`}
+        >
+          {children}
+        </div>
       </div>
     </>
   );
