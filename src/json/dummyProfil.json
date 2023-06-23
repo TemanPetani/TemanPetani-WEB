@@ -1,0 +1,16 @@
+{
+  "status": "success",
+  "data": {
+    "user": {
+      "id": 1,
+      "fullname": "Kurniawan",
+      "email": "kurnhy@gmail.com",
+      "password": "supersecret",
+      "phone": "string",
+      "address": "string",
+      "avatar": "url",
+      "bank": "bri",
+      "noRekening": "string"
+    }
+  }
+}
