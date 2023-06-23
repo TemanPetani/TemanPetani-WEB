@@ -161,14 +161,14 @@ function MyProduct() {
                 htmlFor="modal-add-product"
                 className="btn btn-ghost"
               >
-                Close
+                Kembali
               </label>
               <button
                 id="btn-submit-add"
                 type="submit"
                 className="btn btn-primary w-32 text-white"
               >
-                Submit
+                Simpan
               </button>
             </div>
           </div>
@@ -209,6 +209,7 @@ function MyProduct() {
                       label="Edit"
                       price={data.price.toString()}
                       stok={data.quantity.toString()}
+                      onClick={() => navigate(`/edit/${idx}`)}
                     />
                   );
                 })}

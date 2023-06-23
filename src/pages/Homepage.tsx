@@ -43,6 +43,7 @@ function Homepage() {
                         label="detail"
                         price={data.price.toString()}
                         stok={data.quantity.toString()}
+                        onClick={() => navigate(`/detail/produk/${idx}`)}
                       />
                     );
                   })}
@@ -80,6 +81,7 @@ function Homepage() {
                           label="detail"
                           price={data.price.toString()}
                           stok={data.quantity.toString()}
+                          onClick={() => navigate(`/detail/alat/${idx}`)}
                         />
                       );
                     })}
