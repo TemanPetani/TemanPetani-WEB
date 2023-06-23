@@ -117,7 +117,7 @@ const Navbar: FC<Props> = ({ styled }) => {
                 </li>
                 <div className="divider my-0.5"></div>
                 <li>
-                  <Link to="/">Produk Saya</Link>
+                  <Link to="/myproduct">Produk Saya</Link>
                 </li>
                 {ckRole === 'admin' ? (
                   <>

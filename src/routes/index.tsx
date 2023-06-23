@@ -7,6 +7,7 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import NotFound from '../pages/NotFound';
 import Profile from '../pages/Profile';
+import MyProduct from '../pages/MyProduct';
 
 const Router = () => {
   return (
@@ -32,6 +33,10 @@ const Router = () => {
         <Route
           path="/profile"
           element={<Profile />}
+        />
+        <Route
+          path="/myproduct"
+          element={<MyProduct />}
         />
         <Route
           path="*"

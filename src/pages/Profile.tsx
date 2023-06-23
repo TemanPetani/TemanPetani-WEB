@@ -647,7 +647,7 @@ const Profile = () => {
           </Modals>
           <Layout
             chose="section"
-            addClass="bg-base-100 flex py-12 justify-center px-20"
+            addClass="bg-base-100 flex py-12 justify-center px-20 -mt-[67px] xl:-mt-[64px] "
           >
             <div className="flex">
               <div className="flex md:flex-row flex-col items-center justify-center gap-10">
