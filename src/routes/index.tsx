@@ -8,6 +8,7 @@ import Register from '../pages/Register';
 import NotFound from '../pages/NotFound';
 import Profile from '../pages/Profile';
 import MyProduct from '../pages/MyProduct';
+import DetailBeli from '../pages/DetailBeli';
 
 const Router = () => {
   return (
@@ -38,6 +39,11 @@ const Router = () => {
           path="/myproduct"
           element={<MyProduct />}
         />
+        <Route
+          path="/detail/:type/:productId"
+          element={<DetailBeli />}
+        />
+
         <Route
           path="*"
           element={<NotFound />}

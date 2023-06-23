@@ -247,14 +247,14 @@ const Profile = () => {
                     htmlFor="modal-edit-fullname"
                     className="btn btn-ghost"
                   >
-                    Close
+                    Kembali
                   </label>
                   <button
                     id="btn-submit-email"
                     type="submit"
                     className="btn btn-primary w-32 text-white"
                   >
-                    Submit
+                    Simpan
                   </button>
                 </div>
               </div>
@@ -300,14 +300,14 @@ const Profile = () => {
                     htmlFor="modal-edit-email"
                     className="btn btn-ghost"
                   >
-                    Close
+                    Kembali
                   </label>
                   <button
                     id="btn-submit-email"
                     type="submit"
                     className="btn btn-primary w-32 text-white"
                   >
-                    Submit
+                    Simpan
                   </button>
                 </div>
               </div>
@@ -353,14 +353,14 @@ const Profile = () => {
                     htmlFor="modal-edit-phone"
                     className="btn btn-ghost"
                   >
-                    Close
+                    Kembali
                   </label>
                   <button
                     id="btn-submit-phone"
                     type="submit"
                     className="btn btn-primary w-32 text-white"
                   >
-                    Submit
+                    Simpan
                   </button>
                 </div>
               </div>
@@ -404,14 +404,14 @@ const Profile = () => {
                     htmlFor="modal-edit-address"
                     className="btn btn-ghost"
                   >
-                    Close
+                    Kembali
                   </label>
                   <button
                     id="btn-submit-address"
                     type="submit"
                     className="btn btn-primary w-32 text-white"
                   >
-                    Submit
+                    Simpan
                   </button>
                 </div>
               </div>
@@ -457,14 +457,14 @@ const Profile = () => {
                     htmlFor="modal-edit-rekening"
                     className="btn btn-ghost"
                   >
-                    Close
+                    Kembali
                   </label>
                   <button
                     id="btn-submit-rekening"
                     type="submit"
                     className="btn btn-primary w-32 text-white"
                   >
-                    Submit
+                    Simpan
                   </button>
                 </div>
               </div>
@@ -513,14 +513,14 @@ const Profile = () => {
                     htmlFor="modal-edit-bank"
                     className="btn btn-ghost"
                   >
-                    Close
+                    Kembali
                   </label>
                   <button
                     id="btn-submit-bank"
                     type="submit"
                     className="btn btn-primary w-32 text-white"
                   >
-                    Submit
+                    Simpan
                   </button>
                 </div>
               </div>
@@ -584,14 +584,14 @@ const Profile = () => {
                     htmlFor="modal-edit-password"
                     className="btn btn-ghost"
                   >
-                    Close
+                    Kembali
                   </label>
                   <button
                     id="btn-submit-password"
                     type="submit"
                     className="btn btn-primary w-32 text-white"
                   >
-                    Submit
+                    Simpan
                   </button>
                 </div>
               </div>
@@ -633,13 +633,13 @@ const Profile = () => {
                     htmlFor="modal-edit-avatar"
                     className="btn btn-ghost"
                   >
-                    Close
+                    Kembali
                   </label>
                   <button
                     type="submit"
                     className="btn btn-primary w-32 text-white"
                   >
-                    Submit
+                    Simpan
                   </button>
                 </div>
               </div>
