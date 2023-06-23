@@ -10,6 +10,7 @@ import Profile from '../pages/Profile';
 import MyProduct from '../pages/MyProduct';
 import DetailBeli from '../pages/DetailBeli';
 import DetailJual from '../pages/DetailJual';
+import CaraBayar from '../pages/CaraBayar';
 
 const Router = () => {
   return (
@@ -47,6 +48,10 @@ const Router = () => {
         <Route
           path="/edit/:productId"
           element={<DetailJual />}
+        />
+        <Route
+          path="/payment/:transactionId"
+          element={<CaraBayar />}
         />
 
         <Route

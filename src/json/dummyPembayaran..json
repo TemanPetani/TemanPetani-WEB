@@ -1,0 +1,10 @@
+{
+  "product": {
+    "name": "Alat / Gabah 1",
+    "price": 250000,
+    "quantity": 2,
+    "amount": 500000,
+    "bank": "bri",
+    "vaNumber": "1421132131433543534"
+  }
+}
