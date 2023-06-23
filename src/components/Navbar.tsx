@@ -77,54 +77,75 @@ const Navbar: FC<Props> = ({ styled }) => {
             </Link>
           </>
         ) : (
-          <div className="dropdown dropdown-end">
-            <label
-              tabIndex={0}
-              className="btn btn-ghost btn-circle avatar "
-            >
-              <div className="w-10 rounded-full border-2 border-base-100">
-                <img
-                  src={
-                    !ckPP || ckPP === null || ckPP === undefined
-                      ? placeholder
-                      : ckPP
-                  }
-                  alt={`User's profile picture`}
-                  className="h-10 w-10 border-spacing-1 rounded-full object-cover object-center"
-                />
-              </div>
-            </label>
-            <ul
-              tabIndex={0}
-              className="mt-3 p-2 shadow menu menu-md dropdown-content bg-base-200 rounded-box w-40 gap-1"
-            >
-              {' '}
-              {ckRole === 'hoster' ? (
-                <>
-                  <li>
-                    <Link to="/hosting">Add Homestay</Link>
-                  </li>
-                  <li>
-                    <Link to="/myhosting">My Homestay</Link>
-                  </li>
-                </>
-              ) : (
+          <>
+            {ckRole === 'admin' ? (
+              <div className="badge badge-accent">Admin</div>
+            ) : (
+              <></>
+            )}
+
+            <div className="dropdown dropdown-end">
+              <label
+                tabIndex={0}
+                className="btn btn-ghost btn-circle avatar "
+              >
+                <div className="w-10 rounded-full border-2 border-base-100">
+                  <img
+                    src={
+                      !ckPP || ckPP === null || ckPP === undefined
+                        ? placeholder
+                        : ckPP
+                    }
+                    alt={`User's profile picture`}
+                    className="h-10 w-10 border-spacing-1 rounded-full object-cover object-center"
+                  />
+                </div>
+              </label>
+              <ul
+                tabIndex={0}
+                className="mt-3 p-2 shadow menu menu-md dropdown-content bg-base-200 rounded-box w-40 gap-1"
+              >
+                {' '}
                 <li>
-                  <Link to="/validate">Become Hoster</Link>
+                  <Link to="/">Daftar Nego</Link>
                 </li>
-              )}
-              <div className="divider my-0.5"></div>
-              <li>
-                <Link to="/trip">My Reservation</Link>
-              </li>
-              <li>
-                <Link to="/profile">Profile</Link>
-              </li>
-              <li>
-                <a onClick={() => handleLogout()}>Logout</a>
-              </li>
-            </ul>
-          </div>
+                <li>
+                  <Link to="/">Daftar Terjual</Link>
+                </li>
+                <li>
+                  <Link to="/">Daftar Transaksi</Link>
+                </li>
+                <div className="divider my-0.5"></div>
+                <li>
+                  <Link to="/">Produk Saya</Link>
+                </li>
+                {ckRole === 'admin' ? (
+                  <>
+                    <li>
+                      <Link to="/">Jadwal Tanam</Link>
+                    </li>
+                    <li>
+                      <Link to="/">Jadwal Petani</Link>
+                    </li>
+                    <div className="divider my-0.5"></div>
+                  </>
+                ) : (
+                  <>
+                    <li>
+                      <Link to="/">Tanaman Saya</Link>
+                    </li>
+                    <div className="divider my-0.5"></div>
+                    <li>
+                      <Link to="/">Profil</Link>
+                    </li>
+                  </>
+                )}
+                <li>
+                  <a onClick={() => handleLogout()}>Logout</a>
+                </li>
+              </ul>
+            </div>
+          </>
         )}
       </div>
     </div>
