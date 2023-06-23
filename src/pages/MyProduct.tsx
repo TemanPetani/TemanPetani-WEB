@@ -209,6 +209,7 @@ function MyProduct() {
                       label="Edit"
                       price={data.price.toString()}
                       stok={data.quantity.toString()}
+                      onClick={() => navigate(`/edit/${idx}`)}
                     />
                   );
                 })}
