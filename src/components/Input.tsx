@@ -43,7 +43,7 @@ export const Input: FC<InputProps> = ({
   return (
     <div className="h-16 w-full">
       <input
-        className={`input w-full bg-base-200 ${
+        className={`input w-full input-bordered bg-base-100  ${
           error && touch ? 'input-error' : ''
         }`}
         id={id}
@@ -57,7 +57,7 @@ export const Input: FC<InputProps> = ({
       />
 
       {error && touch && (
-        <span className="text-sm text-error label-text-alt">{error}</span>
+        <span className="text-sm text-error label-text-alt ">{error}</span>
       )}
     </div>
   );
@@ -77,8 +77,8 @@ export const InputFile: FC<InputProps> = ({
   return (
     <div className="h-16 w-full">
       <input
-        className={`file-input w-full bg-base-200 ${
-          error && touch ? 'file-input-bordered file-input-error' : ''
+        className={`file-input file-input-bordered w-full bg-base-100 ${
+          error && touch ? ' file-input-error' : ''
         }`}
         id={id}
         type="file"
@@ -105,11 +105,12 @@ export const TextArea: FC<TextAreaProps> = ({
   onChange,
   onBlur,
   touch,
+  disabled,
 }) => {
   return (
     <div className="h-[90px] w-full">
       <textarea
-        className={`textarea w-full bg-base-200  ${
+        className={`textarea textarea-bordered w-full bg-base-100  ${
           error && touch ? 'textarea-error' : ''
         }`}
         id={id}
@@ -118,6 +119,7 @@ export const TextArea: FC<TextAreaProps> = ({
         onChange={onChange}
         placeholder={label}
         onBlur={onBlur}
+        disabled={disabled}
       />
       <p>
         {error && touch && <span className="text-sm text-error">{error}</span>}
@@ -141,7 +143,7 @@ export const Select: FC<SelectProps> = ({
     <div>
       <div className="h-16 w-full">
         <select
-          className={`select w-full bg-base-200 ${
+          className={`select select-bordered w-full bg-base-100 ${
             error && touch ? 'select-error' : ''
           }`}
           id={id}
@@ -185,7 +187,7 @@ export const InputPass: FC<InputProps> = ({
     <div className="h-16 w-full ">
       <div className="w-full h-min relative">
         <input
-          className={`input w-full bg-base-200 ${
+          className={`input input-bordered w-full bg-base-100 ${
             error && touch ? 'input-error' : ''
           }`}
           id={id}
