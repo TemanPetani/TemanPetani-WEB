@@ -12,6 +12,7 @@ import DetailBeli from '../pages/DetailBeli';
 import DetailJual from '../pages/DetailJual';
 import CaraBayar from '../pages/CaraBayar';
 import DaftarNego from '../pages/DaftarNego';
+import DaftarTerjual from '../pages/DaftarPenjualan';
 
 const Router = () => {
   return (
@@ -57,6 +58,10 @@ const Router = () => {
         <Route
           path="/nego"
           element={<DaftarNego />}
+        />
+        <Route
+          path="/terjual"
+          element={<DaftarTerjual />}
         />
 
         <Route

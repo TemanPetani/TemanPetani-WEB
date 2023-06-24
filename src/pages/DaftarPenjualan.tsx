@@ -1,6 +1,6 @@
 import Layout from '../components/Layout';
 import { Suspense, lazy, useState } from 'react';
-import { nego as dummyData } from '../json/dummyNego.json';
+import { products as dummyData } from '../json/dummyPenjualan.json';
 import { useCookies } from 'react-cookie';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import imgBwh from '../assets/hero_unsplash_3.png';
@@ -12,7 +12,7 @@ import { Input, InputFile, TextArea } from '../components/Input';
 
 const CardDaftar = lazy(() => import('../components/CardDaftar'));
 
-function DaftarNego() {
+function DaftarTerjual() {
   const [cookie] = useCookies(['role']);
   const ckRole = cookie.role;
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ function DaftarNego() {
       >
         <div className="w-full h-max flex flex-col pt-8">
           <p className="text-2xl uppercase lg:text-4xl font-semibold tracking-wider mb-8 self-start">
-            Daftar Nego
+            Daftar Terjual
           </p>
           <div className="w-full h-max">
             <Suspense
@@ -40,15 +40,15 @@ function DaftarNego() {
                 {dummyData.map((data, idx) => {
                   return (
                     <CardDaftar
-                      type="nego"
+                      type="jual"
                       key={idx}
-                      id={data.name}
+                      id={data.productName}
+                      label={data.productName}
                       image={data.image}
-                      label={data.name}
-                      date={data.date}
+                      date={data.createdAt}
                       price={data.price.toString()}
                       stok={data.quantity.toString()}
-                      nego={data.nego.toString()}
+                      status={data.status}
                     />
                   );
                 })}
@@ -61,4 +61,4 @@ function DaftarNego() {
   );
 }
 
-export default DaftarNego;
+export default DaftarTerjual;

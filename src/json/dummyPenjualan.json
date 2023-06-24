@@ -1,0 +1,36 @@
+{
+  "products": [
+    {
+      "productName": "string 1",
+      "quantity": 0,
+      "price": 0,
+      "image": "",
+      "status": "sudah dibayar",
+      "createdAt": "2023-06-24T06:56:30.618Z"
+    },
+    {
+      "productName": "string 2",
+      "quantity": 0,
+      "price": 0,
+      "image": "",
+      "status": "belum dibayar",
+      "createdAt": "2023-06-24T06:56:30.618Z"
+    },
+    {
+      "productName": "string 3",
+      "quantity": 0,
+      "price": 0,
+      "image": "",
+      "status": "belum dibayar",
+      "createdAt": "2023-06-24T06:56:30.618Z"
+    },
+    {
+      "productName": "string 4",
+      "quantity": 0,
+      "price": 0,
+      "image": "",
+      "status": "sudah dibayar",
+      "createdAt": "2023-06-24T06:56:30.618Z"
+    }
+  ]
+}
