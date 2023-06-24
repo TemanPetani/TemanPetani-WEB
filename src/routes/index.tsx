@@ -17,6 +17,9 @@ import DaftarTransaksi from '../pages/DaftarTransaksi';
 import Tanam from '../pages/Tanam';
 import LogsTanaman from '../pages/LogsTanaman';
 import DetailLogTanaman from '../pages/DetailLogsTanam';
+import JadwalTanam from '../pages/JadwalTanam';
+import TasksJadwalTanam from '../pages/TasksJadwalTanam';
+import JadwalPetani from '../pages/JadwalPetani';
 
 const Router = () => {
   return (
@@ -82,6 +85,18 @@ const Router = () => {
         <Route
           path="/tanaman_saya/:logs"
           element={<DetailLogTanaman />}
+        />
+        <Route
+          path="/jadwaltanam"
+          element={<JadwalTanam />}
+        />
+        <Route
+          path="/jadwaltanam/:schedule_id"
+          element={<TasksJadwalTanam />}
+        />
+        <Route
+          path="/jadwalpetani"
+          element={<JadwalPetani />}
         />
 
         <Route

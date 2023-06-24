@@ -1,0 +1,49 @@
+{
+  "code": 200,
+  "message": "Successful add feedback",
+  "data": {
+    "petani": [
+      {
+        "name": "Petani 1",
+        "tanaman": "jagung"
+      },
+      {
+        "name": "Petani 1",
+        "tanaman": "bawang"
+      },
+      {
+        "name": "Petani 2",
+        "tanaman": "jagung"
+      },
+      {
+        "name": "Petani 3",
+        "tanaman": "tomat"
+      },
+      {
+        "name": "Petani 3",
+        "tanaman": "mint"
+      },
+      {
+        "name": "Petani 3",
+        "tanaman": "sledri"
+      }
+    ],
+    "detail": [
+      {
+        "tasks": "Memeilih benih",
+        "date": "2023-06-24T06:56:30.618Z",
+        "dateactual": "2023-06-25T06:56:30.618Z"
+      },
+      {
+        "tasks": "Menyemai Benih",
+        "date": "2023-06-25T06:56:30.618Z",
+        "dateactual": "2023-06-25T06:56:30.618Z"
+      },
+      {
+        "tasks": "Menanam Benih",
+        "date": "2023-06-26T06:56:30.618Z",
+        "dateactual": "2023-06-26T06:56:30.618Z"
+      }
+    ]
+  }
+}
