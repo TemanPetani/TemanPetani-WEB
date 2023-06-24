@@ -19,7 +19,7 @@ const schema = Yup.object().shape({
 });
 
 const Login = () => {
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const MySwal = withReactContent(swal);
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ const Login = () => {
       .then((response) => {
         const { data, message } = response.data;
         MySwal.fire({
-          title: message,
+          text: message,
           icon: 'success',
           showCancelButton: false,
         }).then((result) => {
@@ -53,7 +53,7 @@ const Login = () => {
             setCookie('id', data.id, { path: '/' });
             setCookie('role', data.role, { path: '/' });
             setCookie('token', data.token, { path: '/' });
-            navigate(`/login`);
+            navigate(`/`);
           }
         });
       })

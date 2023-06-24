@@ -14,13 +14,13 @@ interface Props {
 
 const Navbar: FC<Props> = ({ styled }) => {
   const [cookie, , removeCookie] = useCookies([
-    'user_id',
+    'id',
     'token',
-    'pp',
+    'avatar',
     'role',
   ]);
   const ckRole = cookie.role;
-  const ckPP = cookie.pp;
+  const ckAva = cookie.avatar;
   const navigate = useNavigate();
   const MySwal = withReactContent(swal);
 
@@ -30,10 +30,10 @@ const Navbar: FC<Props> = ({ styled }) => {
       text: 'Are you sure?',
     }).then((result) => {
       if (result.isConfirmed) {
-        removeCookie('user_id');
+        removeCookie('id');
         removeCookie('token');
         removeCookie('role');
-        removeCookie('pp');
+        removeCookie('avatar');
         navigate('/landing');
       }
     });
@@ -92,9 +92,9 @@ const Navbar: FC<Props> = ({ styled }) => {
                 <div className="w-10 rounded-full border-2 border-base-100">
                   <img
                     src={
-                      !ckPP || ckPP === null || ckPP === undefined
+                      !ckAva || ckAva === null || ckAva === undefined
                         ? placeholder
-                        : ckPP
+                        : ckAva
                     }
                     alt={`User's profile picture`}
                     className="h-10 w-10 border-spacing-1 rounded-full object-cover object-center"
