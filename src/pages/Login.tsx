@@ -7,10 +7,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 
 import * as Yup from 'yup';
-// import api from "../utils/api";
-// import { PostLogin } from "../utils/type";
 import { useCookies } from 'react-cookie';
 import bg from '../assets/hero_unsplash_1.png';
+import { PostLogin } from '../utils/type';
+import axios from 'axios';
+import { useState } from 'react';
 
 const schema = Yup.object().shape({
   email: Yup.string().email('please enter a valid email').required('Required'),
@@ -18,10 +19,12 @@ const schema = Yup.object().shape({
 });
 
 const Login = () => {
+  const [loading, setLoading] = useState<boolean>(true);
+
   const MySwal = withReactContent(swal);
   const navigate = useNavigate();
 
-  const [, setCookie] = useCookies(['user_id', 'token']);
+  const [, setCookie] = useCookies(['id', 'role', 'token']);
 
   const { values, errors, handleBlur, handleChange, touched, handleSubmit } =
     useFormik({
@@ -31,37 +34,40 @@ const Login = () => {
       },
       validationSchema: schema,
       onSubmit: (values) => {
-        console.log(values);
+        postLogin(values);
       },
     });
 
-  // const postLogin = async (code: PostLogin) => {
-  //   await api
-  //     .postLogin(code)
-  //     .then((response) => {
-  //       const { data, message } = response.data;
-  //       MySwal.fire({
-  //         title: "Success",
-  //         text: message,
-  //         showCancelButton: false,
-  //       }).then((result) => {
-  //         if (result.isConfirmed) {
-  //           setCookie("user_id", data.user_id, { path: "/" });
-  //           setCookie("token", data.token, { path: "/" });
-  //           navigate(`/`);
-  //         }
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       const { data } = error.response;
-  //       MySwal.fire({
-  //         icon: "error",
-  //         title: "Failed",
-  //         text: `error :  ${data.message}`,
-  //         showCancelButton: false,
-  //       });
-  //     });
-  // };
+  const postLogin = async (code: PostLogin) => {
+    setLoading(true);
+    await axios
+      .post('/login', code)
+      .then((response) => {
+        const { data, message } = response.data;
+        MySwal.fire({
+          title: message,
+          icon: 'success',
+          showCancelButton: false,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            setCookie('id', data.id, { path: '/' });
+            setCookie('role', data.role, { path: '/' });
+            setCookie('token', data.token, { path: '/' });
+            navigate(`/login`);
+          }
+        });
+      })
+      .catch((error) => {
+        const { data } = error.response;
+        MySwal.fire({
+          icon: 'error',
+          title: 'Failed',
+          text: `error :  ${data.message}`,
+          showCancelButton: false,
+        });
+      })
+      .finally(() => setLoading(false));
+  };
 
   return (
     <Layout
@@ -83,7 +89,7 @@ const Login = () => {
           </p>
 
           <Input
-            id="email"
+            id="input email"
             name="email"
             label="ketik email anda disini"
             type="email"
@@ -95,7 +101,7 @@ const Login = () => {
           />
 
           <InputPass
-            id="password"
+            id="input password"
             name="password"
             label="ketik password anda disini"
             type="password"
@@ -106,13 +112,24 @@ const Login = () => {
             touch={touched.password}
           />
 
-          <button
-            id="login-button"
-            className="btn btn-primary mt-3 text-white"
-            type="submit"
-          >
-            LOGIN
-          </button>
+          {loading === true ? (
+            <button
+              id="login-button-loading"
+              className="btn btn-primary mt-3 text-white "
+              type="button"
+            >
+              <span className="loading loading-spinner"></span>
+            </button>
+          ) : (
+            <button
+              id="login-button"
+              className="btn btn-primary mt-3 text-white "
+              type="submit"
+            >
+              LOGIN
+            </button>
+          )}
+
           <p className="text-sm text-base-100">
             Belum punya akun?{' '}
             <Link
