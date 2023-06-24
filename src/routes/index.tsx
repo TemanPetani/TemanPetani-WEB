@@ -18,6 +18,7 @@ import Tanam from '../pages/Tanam';
 import LogsTanaman from '../pages/LogsTanaman';
 import DetailLogTanaman from '../pages/DetailLogsTanam';
 import JadwalTanam from '../pages/JadwalTanam';
+import TasksJadwalTanam from '../pages/TasksJadwalTanam';
 
 const Router = () => {
   return (
@@ -85,8 +86,12 @@ const Router = () => {
           element={<DetailLogTanaman />}
         />
         <Route
-          path="/JadwalTanam"
+          path="/jadwaltanam"
           element={<JadwalTanam />}
+        />
+        <Route
+          path="/jadwaltanam/:schedule_id"
+          element={<TasksJadwalTanam />}
         />
 
         <Route
