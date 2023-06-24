@@ -180,7 +180,7 @@ function MyProduct() {
       >
         <div className="w-full h-max flex flex-col justify-center items-center pt-8">
           <div className="flex w-full justify-between">
-            <p className="text-4xl uppercase lg:text-6xl font-semibold tracking-wider mb-8 self-start">
+            <p className="text-2xl uppercase lg:text-4xl font-semibold tracking-wider mb-8 self-start">
               Produk Saya
             </p>
             <label

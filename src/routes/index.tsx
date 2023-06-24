@@ -17,6 +17,7 @@ import DaftarTransaksi from '../pages/DaftarTransaksi';
 import Tanam from '../pages/Tanam';
 import LogsTanaman from '../pages/LogsTanaman';
 import DetailLogTanaman from '../pages/DetailLogsTanam';
+import JadwalTanam from '../pages/JadwalTanam';
 
 const Router = () => {
   return (
@@ -82,6 +83,10 @@ const Router = () => {
         <Route
           path="/tanaman_saya/:logs"
           element={<DetailLogTanaman />}
+        />
+        <Route
+          path="/JadwalTanam"
+          element={<JadwalTanam />}
         />
 
         <Route

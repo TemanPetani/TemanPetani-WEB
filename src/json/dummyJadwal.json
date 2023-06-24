@@ -1,0 +1,28 @@
+{
+  "schedules": [
+    {
+      "scheduleName": "Schedule 1",
+      "scheduleId": 1
+    },
+    {
+      "scheduleName": "Schedule 2",
+      "scheduleId": 2
+    },
+    {
+      "scheduleName": "Schedule 3",
+      "scheduleId": 3
+    },
+    {
+      "scheduleName": "Schedule 4",
+      "scheduleId": 4
+    },
+    {
+      "scheduleName": "Schedule 5",
+      "scheduleId": 5
+    },
+    {
+      "scheduleName": "Schedule 6",
+      "scheduleId": 6
+    }
+  ]
+}
