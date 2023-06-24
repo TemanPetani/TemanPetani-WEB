@@ -1,0 +1,36 @@
+{
+  "nego": [
+    {
+      "name": "Gabah 1",
+      "price": 250000,
+      "quantity": 2,
+      "nego": 270000,
+      "date": "2023-06-2",
+      "image": ""
+    },
+    {
+      "name": "Gabah 2",
+      "price": 250000,
+      "quantity": 2,
+      "nego": 270000,
+      "date": "2023-02-2",
+      "image": ""
+    },
+    {
+      "name": "Gabah 3",
+      "price": 250000,
+      "quantity": 2,
+      "nego": 270000,
+      "date": "2023-03-2",
+      "image": ""
+    },
+    {
+      "name": "Gabah 4",
+      "price": 250000,
+      "quantity": 2,
+      "nego": 270000,
+      "date": "2023-07-2",
+      "image": ""
+    }
+  ]
+}
