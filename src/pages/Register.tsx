@@ -6,15 +6,18 @@ import Layout from '../components/Layout';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-// import api from "../utils/api";
-// import { PostRegis } from "../utils/type";
 import bg from '../assets/hero_unsplash_1.png';
+import { useState } from 'react';
+import axios from 'axios';
+import { PostRegis } from '../utils/type';
 
 const schema = Yup.object().shape({
   email: Yup.string().email('please enter a valid email').required('Required'),
-  fullname: Yup.string().min(3, 'atleat 3 character long').required('Required'),
+  full_name: Yup.string()
+    .min(3, 'atleat 3 character long')
+    .required('Required'),
   address: Yup.string().min(6, 'atleat 6 character long').required('Required'),
-  phone: Yup.string().required('Required'),
+  phone: Yup.number().required('Required'),
   password: Yup.string()
     .required('Required with Uppercase, number and Symbol')
     .matches(/[A-Z]/, 'Must contain at least one uppercase letter')
@@ -24,13 +27,15 @@ const schema = Yup.object().shape({
 });
 
 const Register = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+
   const MySwal = withReactContent(swal);
   const navigate = useNavigate();
 
   const { values, errors, handleBlur, handleChange, touched, handleSubmit } =
     useFormik({
       initialValues: {
-        fullname: '',
+        full_name: '',
         email: '',
         password: '',
         phone: '',
@@ -38,35 +43,40 @@ const Register = () => {
       },
       validationSchema: schema,
       onSubmit: (values) => {
-        console.log(values);
+        values.phone = values.phone.toString();
+        postRegis(values);
       },
     });
 
-  // const postRegis = async (code: PostRegis) => {
-  //   await api
-  //     .postRegister(code)
-  //     .then((response) => {
-  //       const { message } = response.data;
-  //       MySwal.fire({
-  //         title: "Success",
-  //         text: message,
-  //         showCancelButton: false,
-  //       }).then((result) => {
-  //         if (result.isConfirmed) {
-  //           navigate(`/login`);
-  //         }
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       const { data } = error.response;
-  //       MySwal.fire({
-  //         icon: "error",
-  //         title: "Failed",
-  //         text: `error :  ${data.message}`,
-  //         showCancelButton: false,
-  //       });
-  //     });
-  // };
+  const postRegis = async (code: PostRegis) => {
+    setLoading(true);
+    console.log(code);
+    await axios
+      .post('/users', code)
+      .then((response) => {
+        console.log(response);
+        const { message } = response.data;
+        MySwal.fire({
+          title: 'Success',
+          text: message,
+          showCancelButton: false,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate(`/register`);
+          }
+        });
+      })
+      .catch((error) => {
+        const { data } = error.response;
+        MySwal.fire({
+          icon: 'error',
+          title: 'Failed',
+          text: `error :  ${data.message}`,
+          showCancelButton: false,
+        });
+      })
+      .finally(() => setLoading(false));
+  };
 
   return (
     <Layout
@@ -95,19 +105,19 @@ const Register = () => {
           </p>
           <div className="w-full flex flex-col gap-4">
             <Input
-              id="fullname"
-              name="fullname"
+              id="input-full_name"
+              name="full_name"
               label="Ketik nama anda disini"
               type="text"
-              value={values.fullname}
+              value={values.full_name}
               onChange={handleChange}
               onBlur={handleBlur}
-              error={errors.fullname}
-              touch={touched.fullname}
+              error={errors.full_name}
+              touch={touched.full_name}
             />
 
             <Input
-              id="phone"
+              id="input-phone"
               name="phone"
               label="Ketik telepon anda disini"
               type="text"
@@ -119,7 +129,7 @@ const Register = () => {
             />
 
             <TextArea
-              id="address"
+              id="input-address"
               name="address"
               label="Ketik alamat anda disini"
               value={values.address}
@@ -130,7 +140,7 @@ const Register = () => {
             />
 
             <Input
-              id="email"
+              id="input-email"
               name="email"
               label="Ketik email anda disini"
               type="email"
@@ -142,7 +152,7 @@ const Register = () => {
             />
 
             <InputPass
-              id="password"
+              id="input-password"
               name="password"
               label="Ketik password anda disini"
               type="password"
@@ -154,13 +164,23 @@ const Register = () => {
             />
           </div>
 
-          <button
-            id="signup"
-            className="btn btn-primary mt-3 text-white"
-            type="submit"
-          >
-            Sign Up
-          </button>
+          {loading === true ? (
+            <button
+              id="signup-button-loading"
+              className="btn btn-primary mt-3 text-white "
+              type="button"
+            >
+              <span className="loading loading-spinner"></span>
+            </button>
+          ) : (
+            <button
+              id="signup-button"
+              className="btn btn-primary mt-3 text-white "
+              type="submit"
+            >
+              Sign Up
+            </button>
+          )}
         </form>
       </div>
     </Layout>
