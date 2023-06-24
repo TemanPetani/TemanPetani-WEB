@@ -14,6 +14,7 @@ import CaraBayar from '../pages/CaraBayar';
 import DaftarNego from '../pages/DaftarNego';
 import DaftarTerjual from '../pages/DaftarPenjualan';
 import DaftarTransaksi from '../pages/DaftarTransaksi';
+import Tanam from '../pages/Tanam';
 
 const Router = () => {
   return (
@@ -67,6 +68,10 @@ const Router = () => {
         <Route
           path="/transaksi"
           element={<DaftarTransaksi />}
+        />
+        <Route
+          path="/tanam"
+          element={<Tanam />}
         />
 
         <Route
