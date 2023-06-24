@@ -15,6 +15,7 @@ import DaftarNego from '../pages/DaftarNego';
 import DaftarTerjual from '../pages/DaftarPenjualan';
 import DaftarTransaksi from '../pages/DaftarTransaksi';
 import Tanam from '../pages/Tanam';
+import LogsTanaman from '../pages/LogsTanaman';
 
 const Router = () => {
   return (
@@ -72,6 +73,10 @@ const Router = () => {
         <Route
           path="/tanam"
           element={<Tanam />}
+        />
+        <Route
+          path="/tanaman_saya"
+          element={<LogsTanaman />}
         />
 
         <Route
