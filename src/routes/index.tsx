@@ -11,6 +11,7 @@ import MyProduct from '../pages/MyProduct';
 import DetailBeli from '../pages/DetailBeli';
 import DetailJual from '../pages/DetailJual';
 import CaraBayar from '../pages/CaraBayar';
+import DaftarNego from '../pages/DaftarNego';
 
 const Router = () => {
   return (
@@ -52,6 +53,10 @@ const Router = () => {
         <Route
           path="/payment/:transactionId"
           element={<CaraBayar />}
+        />
+        <Route
+          path="/nego"
+          element={<DaftarNego />}
         />
 
         <Route

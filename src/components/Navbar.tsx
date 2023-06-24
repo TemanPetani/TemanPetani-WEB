@@ -107,7 +107,7 @@ const Navbar: FC<Props> = ({ styled }) => {
               >
                 {' '}
                 <li>
-                  <Link to="/">Daftar Nego</Link>
+                  <Link to="/nego">Daftar Nego</Link>
                 </li>
                 <li>
                   <Link to="/">Daftar Terjual</Link>
