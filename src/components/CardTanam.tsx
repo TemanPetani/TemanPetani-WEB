@@ -55,7 +55,7 @@ const CardTanam: FC<CardTanamType> = ({
               id={`button-card-${title}`}
               onClick={onClick}
               disabled={disabled}
-              className="btn btn-primary text-primary w-32"
+              className="btn btn-primary w-32"
             >
               {label}
             </button>
@@ -64,13 +64,14 @@ const CardTanam: FC<CardTanamType> = ({
       ) : (
         <div className="w-full flex flex-col md:flex-row py-3 md:justify-between">
           <div className="flex flex-col gap-1">
-            <p className="text-lg ">
+            <p className="text-lg flex items-center gap-2">
               <FaArrowRight />{' '}
               <span className="font-semibold">{title ? title : 'Kosong'}</span>
             </p>
             <div className="divider my-0.5"></div>
             <p className="font-medium text-lg">
-              Transaksi Tanggal: {dateType(date)}
+              Tanggal Aktivitas:{' '}
+              <span className="font-semibold">{dateType(date)}</span>
             </p>
           </div>
 
@@ -79,7 +80,7 @@ const CardTanam: FC<CardTanamType> = ({
               id={`button-card-${title}`}
               onClick={onClick}
               disabled={disabled}
-              className="btn btn-primary  text-primary w-32"
+              className="btn btn-primary  w-32"
             >
               {label}
             </button>
