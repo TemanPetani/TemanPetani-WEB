@@ -50,7 +50,7 @@ function JadwalTanam() {
           className="flex flex-col gap-3 items-center"
         >
           <p className="text-primary font-medium tracking-wide text-2xl mb-3">
-            Tambah Produk
+            Tambah Jadwal
           </p>
           <div className="w-full flex md:flex-row flex-col  justify-center items-cente gap-3">
             <div className="flex flex-col w-full">
