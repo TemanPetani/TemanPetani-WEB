@@ -13,6 +13,7 @@ import DetailJual from '../pages/DetailJual';
 import CaraBayar from '../pages/CaraBayar';
 import DaftarNego from '../pages/DaftarNego';
 import DaftarTerjual from '../pages/DaftarPenjualan';
+import DaftarTransaksi from '../pages/DaftarTransaksi';
 
 const Router = () => {
   return (
@@ -62,6 +63,10 @@ const Router = () => {
         <Route
           path="/terjual"
           element={<DaftarTerjual />}
+        />
+        <Route
+          path="/transaksi"
+          element={<DaftarTransaksi />}
         />
 
         <Route

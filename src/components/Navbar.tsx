@@ -113,7 +113,7 @@ const Navbar: FC<Props> = ({ styled }) => {
                   <Link to="/terjual">Daftar Terjual</Link>
                 </li>
                 <li>
-                  <Link to="/">Daftar Transaksi</Link>
+                  <Link to="/transaksi">Daftar Transaksi</Link>
                 </li>
                 <div className="divider my-0.5"></div>
                 <li>

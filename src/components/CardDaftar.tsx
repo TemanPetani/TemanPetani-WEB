@@ -15,6 +15,8 @@ interface CardDaftarType {
   nego?: string;
 
   status?: string;
+  vaNumber?: string;
+  bank?: string;
 }
 
 const CardDaftar: FC<CardDaftarType> = ({
@@ -29,6 +31,8 @@ const CardDaftar: FC<CardDaftarType> = ({
   nego,
   type,
   status,
+  vaNumber,
+  bank,
 }) => {
   const dateType = (date: any) => {
     const dated: any = new Date(date);
@@ -122,7 +126,60 @@ const CardDaftar: FC<CardDaftarType> = ({
           </div>
         </div>
       ) : (
-        <></>
+        <div className="w-full flex flex-col md:flex-row py-3 md:justify-between">
+          <div className="flex gap-2">
+            <img
+              src={image ? image : placeholder}
+              alt="image"
+              className="object-cover object-center h-36 w-3h-36 rounded-2xl"
+            />
+            <div className="flex flex-col gap-1">
+              <p className="text-2xl font-semibold tracking-wider">{label}</p>
+              <p className="text-lg">
+                Kuantitas :{' '}
+                <span className="font-semibold">{stok ? stok : 'Kosong'}</span>
+              </p>
+              <p className="text-lg">
+                Di bayar : Rp{' '}
+                <span className="font-semibold">
+                  {price ? price : 'Kosong'}
+                </span>
+              </p>
+              <p className="text-lg">
+                Bank :{' '}
+                <span className="font-semibold uppercase">
+                  {bank ? bank : 'Kosong'}
+                </span>
+              </p>
+              <p className="text-lg">
+                VA Number :{' '}
+                <span className="font-semibold">
+                  {vaNumber ? vaNumber : 'Kosong'}
+                </span>
+              </p>
+            </div>
+          </div>
+          <div className="flex-col mt-5 md:mt-0 flex justify-between items-end gap-3">
+            <div
+              className={`badge w-40 p-5 ${
+                status === 'pending' ? 'badge-error' : 'badge-success'
+              }`}
+            >
+              {status}
+            </div>
+            {status === 'pending' ? (
+              <button
+                id={`button-card-${label}`}
+                onClick={onClickTerima}
+                className="btn btn-primary w-max"
+              >
+                CARA PEMBAYARAN
+              </button>
+            ) : (
+              <></>
+            )}
+          </div>
+        </div>
       )}
     </div>
   );
