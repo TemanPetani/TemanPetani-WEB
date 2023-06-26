@@ -6,7 +6,6 @@ import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 // import api from '../utils/api';
 import { getUsers } from '../utils/type';
-import { data as dataProfil } from '../json/dummyProfil.json';
 
 import withReactContent from 'sweetalert2-react-content';
 import swal from '../utils/swal';
@@ -24,6 +23,7 @@ import {
   TextArea,
 } from '../components/Input';
 import api from '../utils/api';
+import toast from '../utils/toast';
 
 // SCHEMA YUP
 const schemaEmail = Yup.object().shape({
@@ -33,7 +33,7 @@ const schemaFullname = Yup.object().shape({
   fullname: Yup.string().min(6, 'atleat 6 character').required('Required'),
 });
 const schemaPhone = Yup.object().shape({
-  phone: Yup.string().required('Required'),
+  phone: Yup.number().required('Required'),
 });
 const schemaBank = Yup.object().shape({
   bank: Yup.string().required('Required'),
@@ -66,12 +66,19 @@ const Profile = () => {
   const [preview, setPreview] = useState<string | null>(null);
 
   const MySwal = withReactContent(swal);
+  const MyToast = withReactContent(toast);
+
   const navigate = useNavigate();
 
-  const [cookie, setCookie] = useCookies(['user_id', 'token', 'pp', 'role']);
+  const [cookie, setCookie, removeCookie] = useCookies([
+    'id',
+    'token',
+    'avatar',
+    'role',
+  ]);
   const ckToken = cookie.token;
   const ckRole = cookie.role;
-  const ckPP = cookie.pp;
+  const ckPP = cookie.avatar;
 
   const fetchProfile = async () => {
     setLoad(true);
@@ -79,10 +86,8 @@ const Profile = () => {
       .getUserById(ckToken)
       .then((response) => {
         const { data } = response.data;
-        console.log(data);
         setDataProfile(data);
         //   await checkPP(data.profile_picture);
-        //   await checkRole(data.role);
       })
       .catch((error) => {
         const { data } = error.response;
@@ -96,15 +101,91 @@ const Profile = () => {
       .finally(() => setLoad(false));
   };
 
+  const putUsers = async (datad?: any) => {
+    setLoad(true);
+    await api
+      .putUserById(ckToken, datad)
+      .then((response) => {
+        const { message } = response.data;
+        fetchProfile();
+        resetAllFormik();
+
+        MyToast.fire({
+          icon: 'success',
+          title: message,
+        });
+      })
+      .catch((error) => {
+        const { data } = error.response;
+        MySwal.fire({
+          icon: 'error',
+          title: 'Failed',
+          text: `error :  ${data.message}`,
+          showCancelButton: false,
+        });
+      })
+      .finally(() => setLoad(false));
+  };
+
+  const delUser = async () => {
+    await api
+      .delUserById(ckToken)
+      .then((response) => {
+        const { message } = response.data;
+
+        removeCookie('role');
+        removeCookie('avatar');
+        removeCookie('id');
+        removeCookie('token');
+        navigate('/landing');
+
+        MyToast.fire({
+          icon: 'success',
+          title: message,
+        });
+      })
+      .catch((error) => {
+        MySwal.fire({
+          icon: 'error',
+          title: 'Failed',
+          text: `error :  ${error.message}`,
+          showCancelButton: false,
+        });
+      });
+  };
+
+  const handleDelUser = async () => {
+    MySwal.fire({
+      icon: 'question',
+      title: 'Hapus Akun',
+      text: `Apakah Anda yakin ingin menghapus akun anda?`,
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        delUser();
+      }
+    });
+  };
+
   const checkPP = async (data: string) => {
     if (ckPP !== data && data !== undefined) {
-      await setCookie('pp', data, { path: '/' });
+      await setCookie('avatar', data, { path: '/' });
     }
   };
   const checkRole = async (data: string) => {
     if (ckRole !== data && data !== undefined) {
       await setCookie('role', data, { path: '/' });
     }
+  };
+
+  const resetAllFormik = () => {
+    formikFullname.resetForm();
+    formikEmail.resetForm();
+    formikPhone.resetForm();
+    formikBank.resetForm();
+    formikNoRekening.resetForm();
+    formikAddress.resetForm();
+    formikPassword.resetForm();
   };
 
   //FORMIK
@@ -115,7 +196,7 @@ const Profile = () => {
     },
     validationSchema: schemaFullname,
     onSubmit: async (values) => {
-      console.log(values);
+      await putUsers(values);
     },
   });
   const formikEmail = useFormik({
@@ -124,7 +205,7 @@ const Profile = () => {
     },
     validationSchema: schemaEmail,
     onSubmit: async (values) => {
-      console.log(values);
+      await putUsers(values);
     },
   });
   const formikPhone = useFormik({
@@ -133,7 +214,8 @@ const Profile = () => {
     },
     validationSchema: schemaPhone,
     onSubmit: async (values) => {
-      console.log(values);
+      values.phone = values.phone.toString();
+      await putUsers(values);
     },
   });
   const formikBank = useFormik({
@@ -142,7 +224,7 @@ const Profile = () => {
     },
     validationSchema: schemaBank,
     onSubmit: async (values) => {
-      console.log(values);
+      await putUsers(values);
     },
   });
   const formikAddress = useFormik({
@@ -151,7 +233,7 @@ const Profile = () => {
     },
     validationSchema: schemaAddress,
     onSubmit: async (values) => {
-      console.log(values);
+      await putUsers(values);
     },
   });
   const formikNoRekening = useFormik({
@@ -160,7 +242,8 @@ const Profile = () => {
     },
     validationSchema: schemaRekening,
     onSubmit: async (values) => {
-      console.log(values);
+      values.noRekening = values.noRekening.toString();
+      await putUsers(values);
     },
   });
   const formikAvatar = useFormik({
@@ -180,7 +263,7 @@ const Profile = () => {
     },
     validationSchema: schemaPassword,
     onSubmit: async (values) => {
-      console.log(values);
+      putUsers(values);
     },
   });
 
@@ -195,7 +278,7 @@ const Profile = () => {
   const formDataToPut = async (datad?: any) => {
     const formData = new FormData();
     formData.append('avatar', datad.avatar);
-    await console.log(formData);
+    await putUsers(formData);
   };
 
   useEffect(() => {
@@ -340,7 +423,7 @@ const Profile = () => {
                   id="phone"
                   name="phone"
                   label="Telepon baru anda"
-                  type="text"
+                  type="number"
                   value={formikPhone.values.phone}
                   onChange={formikPhone.handleChange}
                   onBlur={formikPhone.handleBlur}
@@ -432,7 +515,7 @@ const Profile = () => {
                 <Input
                   id="noRekening"
                   name="noRekening"
-                  type="text"
+                  type="number"
                   value={dataProfile?.noRekening}
                   disabled={true}
                 />
@@ -444,7 +527,7 @@ const Profile = () => {
                   id="noRekening"
                   name="noRekening"
                   label="Rekening baru anda"
-                  type="text"
+                  type="number"
                   value={formikNoRekening.values.noRekening}
                   onChange={formikNoRekening.handleChange}
                   onBlur={formikNoRekening.handleBlur}
@@ -552,7 +635,7 @@ const Profile = () => {
                 />
               </div>
               <div className="flex flex-col w-full">
-                <p className=" self-start">Bank Baru:</p>{' '}
+                <p className=" self-start">Password Baru:</p>{' '}
                 <InputPass
                   id="password"
                   name="password"
@@ -788,14 +871,15 @@ const Profile = () => {
                   <div className="flex w-full pt-5 gap-4">
                     <label
                       htmlFor="modal-edit-password"
-                      className="btn btn-primary w-36 text-white"
+                      className="btn btn-primary w-36 text-primary-content"
                     >
                       Ganti Password
                     </label>
 
                     <button
-                      className="btn btn-error w-36 text-white"
+                      className="btn btn-error w-36 text-error-content"
                       disabled={ckRole === 'admin'}
+                      onClick={() => handleDelUser()}
                     >
                       Hapus Akun
                     </button>
