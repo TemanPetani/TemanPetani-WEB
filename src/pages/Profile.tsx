@@ -70,7 +70,7 @@ const Profile = () => {
 
   const navigate = useNavigate();
 
-  const [cookie, setCookie, removeCookie] = useCookies([
+  const [cookie, , removeCookie] = useCookies([
     'id',
     'token',
     'avatar',
@@ -78,7 +78,6 @@ const Profile = () => {
   ]);
   const ckToken = cookie.token;
   const ckRole = cookie.role;
-  const ckPP = cookie.avatar;
 
   const fetchProfile = async () => {
     setLoad(true);
@@ -165,17 +164,6 @@ const Profile = () => {
         delUser();
       }
     });
-  };
-
-  const checkPP = async (data: string) => {
-    if (ckPP !== data && data !== undefined) {
-      await setCookie('avatar', data, { path: '/' });
-    }
-  };
-  const checkRole = async (data: string) => {
-    if (ckRole !== data && data !== undefined) {
-      await setCookie('role', data, { path: '/' });
-    }
   };
 
   const resetAllFormik = () => {

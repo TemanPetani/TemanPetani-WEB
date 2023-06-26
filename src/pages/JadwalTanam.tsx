@@ -1,26 +1,18 @@
 import Layout from '../components/Layout';
-import { Suspense, lazy, useState } from 'react';
 import { schedules as dummyData } from '../json/dummyJadwal.json';
-import { useCookies } from 'react-cookie';
-import { Link, useNavigate } from 'react-router-dom';
-import imgBwh from '../assets/hero_unsplash_3.png';
-import { FaArrowRight, FaPen, FaRegEdit, FaTrashAlt } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { FaPen, FaTrashAlt } from 'react-icons/fa';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Modals } from '../components/Modals';
-import { Input, InputFile, TextArea } from '../components/Input';
-
-const CardHome = lazy(() => import('../components/CardHome'));
+import { Input } from '../components/Input';
 
 const schemaAddPlant = Yup.object().shape({
   name: Yup.string().required('Required'),
 });
 
 function JadwalTanam() {
-  const [cookie] = useCookies(['role']);
-  const ckRole = cookie.role;
   const navigate = useNavigate();
-  const [preview, setPreview] = useState<string | null>(null);
 
   const formikAddPlant = useFormik({
     initialValues: {
@@ -31,16 +23,6 @@ function JadwalTanam() {
       console.log(values);
     },
   });
-
-  const formDataToPost = async (datad?: any) => {
-    const formData = new FormData();
-    formData.append('productId', datad.productId);
-    formData.append('description', datad.description);
-    formData.append('address', datad.address);
-    formData.append('price', datad.price);
-    formData.append('homestay_picture', datad.homestay_picture);
-    await console.log(formData);
-  };
 
   return (
     <Layout chose="layout">

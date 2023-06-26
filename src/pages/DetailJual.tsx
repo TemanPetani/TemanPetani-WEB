@@ -1,14 +1,12 @@
 import Layout from '../components/Layout';
-import { Suspense, lazy, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { product as dummyData } from '../json/dummyDetail.json';
-import { useCookies } from 'react-cookie';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import imgBwh from '../assets/polaceholder_image.svg';
-import { FaArrowRight } from 'react-icons/fa';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Modals } from '../components/Modals';
-import { Input, InputFile, Select, TextArea } from '../components/Input';
+import { Input, InputFile, TextArea } from '../components/Input';
 
 const schemaEdit = Yup.object().shape({
   name: Yup.string().required('Required'),
@@ -22,9 +20,6 @@ const schemaImage = Yup.object().shape({
 });
 
 function DetailJual() {
-  const [cookie] = useCookies(['role']);
-  const ckRole = cookie.role;
-  const navigate = useNavigate();
   const [preview, setPreview] = useState<string | null>(null);
   const { type, productId } = useParams();
 
@@ -50,15 +45,15 @@ function DetailJual() {
     },
   });
 
-  const formDataToPost = async (datad?: any) => {
-    const formData = new FormData();
-    formData.append('productId', datad.productId);
-    formData.append('description', datad.description);
-    formData.append('address', datad.address);
-    formData.append('price', datad.price);
-    formData.append('homestay_picture', datad.homestay_picture);
-    await console.log(formData);
-  };
+  // const formDataToPost = async (datad?: any) => {
+  //   const formData = new FormData();
+  //   formData.append('productId', datad.productId);
+  //   formData.append('description', datad.description);
+  //   formData.append('address', datad.address);
+  //   formData.append('price', datad.price);
+  //   formData.append('homestay_picture', datad.homestay_picture);
+  //   await console.log(formData);
+  // };
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.currentTarget.files?.[0];

@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import placeholder from '../assets/polaceholder_image.svg';
 import { FaArrowRight } from 'react-icons/fa';
 
 interface CardTanamType {

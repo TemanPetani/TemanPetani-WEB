@@ -58,4 +58,26 @@ export default {
         Authorization: `Bearer ${token}`,
       },
     }),
+
+  // ----- products -----
+
+  postProduct: (token?: string, code?: FormData) =>
+    instance({
+      method: 'POST',
+      url: `products`,
+      data: code,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  putProductImage: (token?: string, code?: FormData, productId?: string) =>
+    instance({
+      method: 'PUT',
+      url: `products/${productId}/images`,
+      data: code,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
 };

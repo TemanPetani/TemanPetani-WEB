@@ -1,22 +1,12 @@
 import Layout from '../components/Layout';
-import { Suspense, lazy, useState } from 'react';
+import { Suspense, lazy } from 'react';
 import { data as dummyData } from '../json/dummyTanam.json';
-import { useCookies } from 'react-cookie';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import imgBwh from '../assets/hero_unsplash_3.png';
-import { FaArrowRight } from 'react-icons/fa';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { Modals } from '../components/Modals';
-import { Input, InputFile, TextArea } from '../components/Input';
+import { useNavigate } from 'react-router-dom';
 
 const CardTanam = lazy(() => import('../components/CardTanam'));
 
 function LogsTanaman() {
-  const [cookie] = useCookies(['role']);
-  const ckRole = cookie.role;
   const navigate = useNavigate();
-  const { transactionId } = useParams();
 
   return (
     <Layout chose="layout">

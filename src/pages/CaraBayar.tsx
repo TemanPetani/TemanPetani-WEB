@@ -1,23 +1,7 @@
 import Layout from '../components/Layout';
-import { Suspense, lazy, useState } from 'react';
 import { product as dummyData } from '../json/dummyPembayaran..json';
-import { useCookies } from 'react-cookie';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import imgBwh from '../assets/hero_unsplash_3.png';
-import { FaArrowRight } from 'react-icons/fa';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { Modals } from '../components/Modals';
-import { Input, InputFile, TextArea } from '../components/Input';
-
-const CardHome = lazy(() => import('../components/CardHome'));
 
 function CaraBayar() {
-  const [cookie] = useCookies(['role']);
-  const ckRole = cookie.role;
-  const navigate = useNavigate();
-  const { transactionId } = useParams();
-
   return (
     <Layout chose="layout">
       <Layout
