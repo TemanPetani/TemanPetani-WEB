@@ -10,7 +10,10 @@ interface CardLandingType {
 
 const CardLanding: FC<CardLandingType> = ({ image, text, onClick, id }) => {
   return (
-    <div className="card bg-base-100 shadow-xl">
+    <div
+      id={id}
+      className="card bg-base-100 shadow-xl"
+    >
       <div className="w-full h-4/5">
         <img
           src={image ? image : placeholder}
