@@ -23,7 +23,7 @@ const CardHome: FC<CardHomeType> = ({
   return (
     <div
       id={id}
-      className="h-full rounded-2xl bg-base-100 shadow-xl"
+      className="h-full rounded-2xl bg-base-100 transition-shadow shadow-xl hover:shadow-2xl"
     >
       <div className=" w-full p-3">
         <p className="font-semibold text-xl">{text ? text : ' '}</p>

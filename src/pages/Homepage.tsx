@@ -18,7 +18,7 @@ function Homepage() {
       {ckRole === 'admin' ? (
         <Layout
           chose="section"
-          addClass="w-full min-h-screen -mt-[67px] xl:-mt-[64px]  px-16 py-8 md:py-16 flex  items-center "
+          addClass="w-full min-h-screen -mt-[67px] xl:-mt-[64px]  px-16 py-8 md:py-16 flex  items-center bg-base-200/20"
         >
           <div className="w-full h-max flex flex-col justify-center items-center pt-8">
             <p className="text-4xl uppercase lg:text-6xl font-semibold tracking-wider mb-8 self-start">
@@ -56,7 +56,7 @@ function Homepage() {
         <>
           <Layout
             chose="section"
-            addClass="w-full min-h-screen -mt-[67px] xl:-mt-[64px]  px-16 py-8 md:py-16 flex  items-center "
+            addClass="w-full min-h-screen -mt-[67px] xl:-mt-[64px]  px-16 py-8 md:py-16 flex  items-center bg-base-200/20"
           >
             <div className="w-full h-max flex flex-col justify-center items-center pt-8">
               <p className="text-4xl uppercase lg:text-6xl font-semibold tracking-wider mb-8 self-start">

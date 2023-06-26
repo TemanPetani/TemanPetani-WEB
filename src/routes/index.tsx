@@ -1,12 +1,9 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
-
-import axios from 'axios';
 
 import ScrollToTop from '../components/ScrollToTop';
 import LoadingFull from '../components/LoadingFull';
-
-axios.defaults.baseURL = 'https://temanpetani-api-7hxmz4cxza-as.a.run.app';
+import { useCookies } from 'react-cookie';
 
 // lazy loaded
 const Homepage = lazy(() => import('../pages/Homepage'));
@@ -30,6 +27,9 @@ const JadwalPetani = lazy(() => import('../pages/JadwalPetani'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
 const Router = () => {
+  const [cookie] = useCookies(['token']);
+  const ckTkn = cookie.token;
+
   return (
     <BrowserRouter>
       <ScrollToTop />
@@ -37,19 +37,19 @@ const Router = () => {
         <Routes>
           <Route
             path="/"
-            element={<Homepage />}
+            element={ckTkn ? <Homepage /> : <Navigate to="/landing" />}
           />
           <Route
             path="/landing"
-            element={<Landing />}
+            element={ckTkn ? <Navigate to="/" /> : <Landing />}
           />
           <Route
             path="/login"
-            element={<Login />}
+            element={ckTkn ? <Navigate to="/" /> : <Login />}
           />
           <Route
             path="/register"
-            element={<Register />}
+            element={ckTkn ? <Navigate to="/" /> : <Register />}
           />
           <Route
             path="/profile"
