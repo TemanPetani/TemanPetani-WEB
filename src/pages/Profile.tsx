@@ -42,7 +42,7 @@ const schemaAddress = Yup.object().shape({
   address: Yup.string().required('Required'),
 });
 const schemaRekening = Yup.object().shape({
-  noRekening: Yup.string().required('Required'),
+  accountNumber: Yup.string().required('Required'),
 });
 const schemaAvatar = Yup.object().shape({
   avatar: Yup.mixed().required('Required'),
@@ -183,7 +183,7 @@ const Profile = () => {
     formikEmail.resetForm();
     formikPhone.resetForm();
     formikBank.resetForm();
-    formikNoRekening.resetForm();
+    formikAccountNumber.resetForm();
     formikAddress.resetForm();
     formikPassword.resetForm();
   };
@@ -236,13 +236,13 @@ const Profile = () => {
       await putUsers(values);
     },
   });
-  const formikNoRekening = useFormik({
+  const formikAccountNumber = useFormik({
     initialValues: {
-      noRekening: '',
+      accountNumber: '',
     },
     validationSchema: schemaRekening,
     onSubmit: async (values) => {
-      values.noRekening = values.noRekening.toString();
+      values.accountNumber = values.accountNumber.toString();
       await putUsers(values);
     },
   });
@@ -504,7 +504,7 @@ const Profile = () => {
           </Modals>
           <Modals id="modal-edit-rekening">
             <form
-              onSubmit={formikNoRekening.handleSubmit}
+              onSubmit={formikAccountNumber.handleSubmit}
               className="flex flex-col gap-3 items-center"
             >
               <p className="text-primary font-medium tracking-wide text-2xl mb-3">
@@ -513,10 +513,10 @@ const Profile = () => {
               <div className="flex flex-col w-full">
                 <p className=" self-start">Rekening Lama:</p>
                 <Input
-                  id="noRekening"
-                  name="noRekening"
+                  id="accountNumber"
+                  name="accountNumber"
                   type="number"
-                  value={dataProfile?.noRekening}
+                  value={dataProfile?.accountNumber}
                   disabled={true}
                 />
               </div>
@@ -524,15 +524,15 @@ const Profile = () => {
               <div className="flex flex-col w-full">
                 <p className=" self-start">Rekening baru:</p>{' '}
                 <Input
-                  id="noRekening"
-                  name="noRekening"
+                  id="accountNumber"
+                  name="accountNumber"
                   label="Rekening baru anda"
                   type="number"
-                  value={formikNoRekening.values.noRekening}
-                  onChange={formikNoRekening.handleChange}
-                  onBlur={formikNoRekening.handleBlur}
-                  error={formikNoRekening.errors.noRekening}
-                  touch={formikNoRekening.touched.noRekening}
+                  value={formikAccountNumber.values.accountNumber}
+                  onChange={formikAccountNumber.handleChange}
+                  onBlur={formikAccountNumber.handleBlur}
+                  error={formikAccountNumber.errors.accountNumber}
+                  touch={formikAccountNumber.touched.accountNumber}
                 />
               </div>
 
@@ -815,10 +815,10 @@ const Profile = () => {
 
                     <p className="text-xl col-span-1">Rekening</p>
                     <p className="text-xl col-span-1">
-                      {dataProfile?.noRekening ? (
+                      {dataProfile?.accountNumber ? (
                         <>
                           <span className="font-semibold">
-                            {dataProfile.noRekening}
+                            {dataProfile.accountNumber}
                           </span>
                           &ensp;
                           <label

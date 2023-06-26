@@ -14,5 +14,5 @@ export interface getUsers extends PostRegis {
   role?: string;
   id?: number;
   bank?: string;
-  noRekening?: string;
+  accountNumber?: string;
 }
