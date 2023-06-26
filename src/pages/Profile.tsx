@@ -186,6 +186,8 @@ const Profile = () => {
     formikAccountNumber.resetForm();
     formikAddress.resetForm();
     formikPassword.resetForm();
+    formikAvatar.resetForm();
+    setPreview(null);
   };
 
   //FORMIK
