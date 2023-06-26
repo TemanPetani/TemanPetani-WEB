@@ -1,6 +1,6 @@
 import withReactContent from 'sweetalert2-react-content';
 import swal from '../utils/swal';
-import { Input, InputPass, TextArea } from '../components/Input';
+import { Input, InputPass } from '../components/Input';
 import Layout from '../components/Layout';
 
 import { Link, useNavigate } from 'react-router-dom';
@@ -8,14 +8,12 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import bg from '../assets/hero_unsplash_1.png';
 import { useState } from 'react';
-import axios from 'axios';
 import { PostRegis } from '../utils/type';
+import api from '../utils/api';
 
 const schema = Yup.object().shape({
   email: Yup.string().email('please enter a valid email').required('Required'),
-  full_name: Yup.string()
-    .min(3, 'atleat 3 character long')
-    .required('Required'),
+  fullname: Yup.string().min(3, 'atleat 3 character long').required('Required'),
   address: Yup.string().min(6, 'atleat 6 character long').required('Required'),
   phone: Yup.number().required('Required'),
   password: Yup.string()
@@ -35,7 +33,7 @@ const Register = () => {
   const { values, errors, handleBlur, handleChange, touched, handleSubmit } =
     useFormik({
       initialValues: {
-        full_name: '',
+        fullname: '',
         email: '',
         password: '',
         phone: '',
@@ -50,11 +48,9 @@ const Register = () => {
 
   const postRegis = async (code: PostRegis) => {
     setLoading(true);
-    console.log(code);
-    await axios
-      .post('/users', code)
+    await api
+      .postRegister(code)
       .then((response) => {
-        console.log(response);
         const { message } = response.data;
         MySwal.fire({
           title: 'Success',
@@ -62,7 +58,7 @@ const Register = () => {
           showCancelButton: false,
         }).then((result) => {
           if (result.isConfirmed) {
-            navigate(`/register`);
+            navigate(`/login`);
           }
         });
       })
@@ -85,59 +81,62 @@ const Register = () => {
     >
       <div
         style={{ backgroundImage: `url(${bg})` }}
-        className="w-4/5 h-5/6 bg-[-6rem] rounded-3xl flex p-20 items-center bg-cover md:bg-center"
+        className="w-4/5 h-5/6 bg-[-6rem] rounded-3xl flex p-5 md:p-10 lg:p-15 items-center bg-cover md:bg-center"
       >
-        <div className="md:w-2/5 lg:w-4/6 w-0 h-full"></div>
+        <div className="md:w-5/12 w-0 h-full"></div>
         <form
           onSubmit={handleSubmit}
-          className="md:w-3/5 lg:w-2/6 w-full h-max flex flex-col justify-center  p-10 gap-6 bg-neutral/30 md:bg-base-100/20 backdrop-blur-sm rounded-3xl"
+          className="md:w-7/12 w-full h-max flex flex-col justify-center p-5 md:p-7 gap-4 bg-black/40 md:bg-black/20 backdrop-blur-sm rounded-3xl"
         >
           <p className="text-2xl font-semibold text-base-100">Buat Akun</p>
           <p className="text-sm text-base-100">
             Sudah punya akun?{' '}
             <Link
               id="to-login"
-              className="font-semibold"
+              className="font-semibold tracking-wider"
               to={'/login'}
             >
               Log in disini
             </Link>
           </p>
-          <div className="w-full flex flex-col gap-4">
+          <div className="w-full flex flex-col gap-3">
             <Input
-              id="input-full_name"
-              name="full_name"
+              id="input-fullname"
+              name="fullname"
               label="Ketik nama anda disini"
               type="text"
-              value={values.full_name}
+              value={values.fullname}
               onChange={handleChange}
               onBlur={handleBlur}
-              error={errors.full_name}
-              touch={touched.full_name}
+              error={errors.fullname}
+              touch={touched.fullname}
             />
 
-            <Input
-              id="input-phone"
-              name="phone"
-              label="Ketik telepon anda disini"
-              type="text"
-              value={values.phone}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={errors.phone}
-              touch={touched.phone}
-            />
+            <div className="flex flex-row gap-4">
+              <Input
+                id="input-phone"
+                name="phone"
+                label="Ketik telepon anda disini"
+                type="text"
+                value={values.phone}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.phone}
+                touch={touched.phone}
+              />
 
-            <TextArea
-              id="input-address"
-              name="address"
-              label="Ketik alamat anda disini"
-              value={values.address}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={errors.address}
-              touch={touched.address}
-            />
+              <Input
+                id="input-address"
+                name="address"
+                label="Ketik alamat anda disini"
+                type="text"
+                value={values.address}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.address}
+                touch={touched.address}
+              />
+            </div>
 
             <Input
               id="input-email"

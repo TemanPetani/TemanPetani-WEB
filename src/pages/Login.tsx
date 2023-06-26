@@ -10,8 +10,8 @@ import * as Yup from 'yup';
 import { useCookies } from 'react-cookie';
 import bg from '../assets/hero_unsplash_1.png';
 import { PostLogin } from '../utils/type';
-import axios from 'axios';
 import { useState } from 'react';
+import api from '../utils/api';
 
 const schema = Yup.object().shape({
   email: Yup.string().email('please enter a valid email').required('Required'),
@@ -40,8 +40,8 @@ const Login = () => {
 
   const postLogin = async (code: PostLogin) => {
     setLoading(true);
-    await axios
-      .post('/login', code)
+    await api
+      .postLogin(code)
       .then((response) => {
         const { data, message } = response.data;
         MySwal.fire({
@@ -76,11 +76,11 @@ const Login = () => {
     >
       <div
         style={{ backgroundImage: `url(${bg})` }}
-        className="w-4/5 h-5/6 bg-[-6rem] rounded-3xl flex p-20 items-center bg-cover md:bg-center"
+        className="w-4/5 h-5/6 bg-[-6rem] rounded-3xl flex p-5 md:p-10 lg:p-15 items-center bg-cover md:bg-center"
       >
-        <div className="md:w-2/5 lg:w-4/6 w-0 h-full"></div>
+        <div className="md:w-5/12 w-0 h-full"></div>
         <form
-          className="md:w-3/5 lg:w-2/6 w-full h-max flex flex-col justify-center  p-10 gap-6 bg-neutral/30 md:bg-base-100/20 backdrop-blur-sm rounded-3xl"
+          className="md:w-7/12 w-full h-max flex flex-col justify-center p-5 md:p-7 gap-4 bg-black/40 md:bg-black/20 backdrop-blur-sm rounded-3xl"
           onSubmit={handleSubmit}
         >
           <p className="text-4xl font-semibold text-base-100">Log in.</p>
@@ -134,7 +134,7 @@ const Login = () => {
             Belum punya akun?{' '}
             <Link
               id="to-register"
-              className="font-semibold"
+              className="font-semibold tracking-wider"
               to={'/register'}
             >
               Register disini
