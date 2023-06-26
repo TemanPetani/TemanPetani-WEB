@@ -1,24 +1,10 @@
 import Layout from '../components/Layout';
-import { Suspense, lazy, useState } from 'react';
+import { useState } from 'react';
 import { data as dummyData } from '../json/dummyJadwalPetani.json';
-import { useCookies } from 'react-cookie';
-import { Link, useNavigate } from 'react-router-dom';
-import {
-  FaArrowRight,
-  FaPen,
-  FaRegEdit,
-  FaTasks,
-  FaTrashAlt,
-} from 'react-icons/fa';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import { FaTasks } from 'react-icons/fa';
 import { Modals } from '../components/Modals';
-import { Input, InputFile, TextArea } from '../components/Input';
 
 function JadwalPetani() {
-  const [cookie] = useCookies(['role']);
-  const ckRole = cookie.role;
-  const navigate = useNavigate();
   const [petani, setPetani] = useState<string>();
   const [tanaman, setTanaman] = useState<string>();
 

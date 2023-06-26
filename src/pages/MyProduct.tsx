@@ -1,15 +1,16 @@
 import Layout from '../components/Layout';
 import { Suspense, lazy, useState } from 'react';
 import { data as dummyData } from '../json/dummyProduk.json';
-import { data as dummyAlat } from '../json/dummyAlat.json';
 import { useCookies } from 'react-cookie';
-import { Link, useNavigate } from 'react-router-dom';
-import imgBwh from '../assets/hero_unsplash_3.png';
-import { FaArrowRight } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Modals } from '../components/Modals';
 import { Input, InputFile, TextArea } from '../components/Input';
+import api from '../utils/api';
+import withReactContent from 'sweetalert2-react-content';
+import swal from '../utils/swal';
+import toast from '../utils/toast';
 
 const CardHome = lazy(() => import('../components/CardHome'));
 
@@ -18,14 +19,19 @@ const schemaAddProduct = Yup.object().shape({
   description: Yup.string().required('Required'),
   price: Yup.number().required('Required'),
   stock: Yup.number().required('Required'),
-  urlImage: Yup.mixed().required('Required'),
+  image: Yup.mixed().required('Required'),
 });
 
 function MyProduct() {
-  const [cookie] = useCookies(['role']);
-  const ckRole = cookie.role;
+  const [cookie] = useCookies(['token']);
+  const ckToken = cookie.token;
   const navigate = useNavigate();
+  const [load, setLoad] = useState<boolean>(false);
+
   const [preview, setPreview] = useState<string | null>(null);
+
+  const MySwal = withReactContent(swal);
+  const MyToast = withReactContent(toast);
 
   const formikAddProduct = useFormik({
     initialValues: {
@@ -33,28 +39,72 @@ function MyProduct() {
       description: '',
       price: '',
       stock: '',
-      urlImage: '',
+      image: '',
     },
     validationSchema: schemaAddProduct,
     onSubmit: async (values) => {
-      console.log(values);
+      formDataToPost(values);
     },
   });
 
+  const postProduct = async (datad?: any) => {
+    setLoad(true);
+    await api
+      .postProduct(ckToken, datad)
+      .then((response) => {
+        const { message, data } = response.data;
+        console.log(response);
+        putProductImage(datad, data.productId);
+
+        MyToast.fire({
+          icon: 'success',
+          title: message,
+        });
+      })
+      .catch((error) => {
+        const { data } = error.response;
+        MySwal.fire({
+          icon: 'error',
+          title: 'Failed',
+          text: `error :  ${data.message}`,
+          showCancelButton: false,
+        });
+      });
+  };
+
+  const putProductImage = async (datad?: any, productId?: string) => {
+    await api
+      .putProductImage(ckToken, datad, productId)
+      .then(() => {
+        formikAddProduct.resetForm();
+        setPreview(null);
+      })
+      .catch((error) => {
+        const { data } = error.response;
+        MySwal.fire({
+          icon: 'error',
+          title: 'Failed',
+          text: `error :  ${data.message}`,
+          showCancelButton: false,
+        });
+      })
+      .finally(() => setLoad(false));
+  };
+
   const formDataToPost = async (datad?: any) => {
     const formData = new FormData();
-    formData.append('productId', datad.productId);
+    formData.append('name', datad.name);
     formData.append('description', datad.description);
-    formData.append('address', datad.address);
+    formData.append('stock', datad.stock);
     formData.append('price', datad.price);
-    formData.append('homestay_picture', datad.homestay_picture);
-    await console.log(formData);
+    formData.append('image', datad.image);
+    await postProduct(formData);
   };
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.currentTarget.files?.[0];
     if (file) {
-      formikAddProduct.setFieldValue('urlImage', file);
+      formikAddProduct.setFieldValue('image', file);
       setPreview(URL.createObjectURL(file));
     }
   };
@@ -86,13 +136,13 @@ function MyProduct() {
                 />
               </div>
               <InputFile
-                id="urlImage"
-                name="urlImage"
-                label="urlImage name"
+                id="image"
+                name="image"
+                label="image name"
                 onChange={handleImageChange}
                 onBlur={formikAddProduct.handleBlur}
-                error={formikAddProduct.errors.urlImage}
-                touch={formikAddProduct.touched.urlImage}
+                error={formikAddProduct.errors.image}
+                touch={formikAddProduct.touched.image}
               />
             </div>
             <div className="md:w-[48%] w-full">
@@ -140,7 +190,7 @@ function MyProduct() {
               </div>
 
               <div className="flex flex-col w-full">
-                <p className=" self-start">Konfirmasi Password Baru:</p>{' '}
+                <p className=" self-start">Deskripsi Produk:</p>{' '}
                 <TextArea
                   id="description"
                   name="description"
@@ -157,19 +207,31 @@ function MyProduct() {
 
           <div className="w-full flex justify-end gap-3">
             <div className="modal-action mt-0 ">
-              <label
-                htmlFor="modal-add-product"
-                className="btn btn-ghost"
-              >
-                Kembali
-              </label>
-              <button
-                id="btn-submit-add"
-                type="submit"
-                className="btn btn-primary w-32 text-white"
-              >
-                Simpan
-              </button>
+              {load === true ? (
+                <button
+                  id="btn-submit-add"
+                  type="button"
+                  className="btn btn-primary w-32 text-white"
+                >
+                  <span className="loading loading-spinner"></span>
+                </button>
+              ) : (
+                <>
+                  <label
+                    htmlFor="modal-add-product"
+                    className="btn btn-ghost"
+                  >
+                    Kembali
+                  </label>
+                  <button
+                    id="btn-submit-add"
+                    type="submit"
+                    className="btn btn-primary w-32 text-white"
+                  >
+                    Simpan
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </form>

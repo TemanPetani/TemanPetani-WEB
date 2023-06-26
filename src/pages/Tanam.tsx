@@ -1,14 +1,9 @@
 import Layout from '../components/Layout';
-import { Suspense, lazy, useState } from 'react';
-import { nego as dummyData } from '../json/dummyNego.json';
-import { useCookies } from 'react-cookie';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import imgBwh from '../assets/hero_unsplash_3.png';
-import { FaArrowRight } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Modals } from '../components/Modals';
-import { Input, InputFile, Select, TextArea } from '../components/Input';
+import { Input, Select } from '../components/Input';
 
 const schemaTanam = Yup.object().shape({
   name: Yup.string().required('Required'),
@@ -22,10 +17,7 @@ const schemaTanam = Yup.object().shape({
 });
 
 function Tanam() {
-  const [cookie] = useCookies(['role']);
-  const ckRole = cookie.role;
   const navigate = useNavigate();
-  const { transactionId } = useParams();
 
   const formikTanam = useFormik({
     initialValues: {

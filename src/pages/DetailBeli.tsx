@@ -1,10 +1,8 @@
 import Layout from '../components/Layout';
-import { Suspense, lazy, useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { product as dummyData } from '../json/dummyDetail.json';
-import { useCookies } from 'react-cookie';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import imgBwh from '../assets/polaceholder_image.svg';
-import { FaArrowRight } from 'react-icons/fa';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Modals } from '../components/Modals';
@@ -22,10 +20,6 @@ const schemaTawar = Yup.object().shape({
 });
 
 function DetailBeli() {
-  const [cookie] = useCookies(['role']);
-  const ckRole = cookie.role;
-  const navigate = useNavigate();
-  const [preview, setPreview] = useState<string | null>(null);
   const { type, productId } = useParams();
 
   const formikConfirm = useFormik({
