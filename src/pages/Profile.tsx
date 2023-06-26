@@ -6,7 +6,6 @@ import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 // import api from '../utils/api';
 import { getUsers } from '../utils/type';
-import { data as dataProfil } from '../json/dummyProfil.json';
 
 import withReactContent from 'sweetalert2-react-content';
 import swal from '../utils/swal';
@@ -23,6 +22,8 @@ import {
   Select,
   TextArea,
 } from '../components/Input';
+import api from '../utils/api';
+import toast from '../utils/toast';
 
 // SCHEMA YUP
 const schemaEmail = Yup.object().shape({
@@ -32,7 +33,7 @@ const schemaFullname = Yup.object().shape({
   fullname: Yup.string().min(6, 'atleat 6 character').required('Required'),
 });
 const schemaPhone = Yup.object().shape({
-  phone: Yup.string().required('Required'),
+  phone: Yup.number().required('Required'),
 });
 const schemaBank = Yup.object().shape({
   bank: Yup.string().required('Required'),
@@ -41,7 +42,7 @@ const schemaAddress = Yup.object().shape({
   address: Yup.string().required('Required'),
 });
 const schemaRekening = Yup.object().shape({
-  noRekening: Yup.string().required('Required'),
+  accountNumber: Yup.string().required('Required'),
 });
 const schemaAvatar = Yup.object().shape({
   avatar: Yup.mixed().required('Required'),
@@ -65,44 +66,128 @@ const Profile = () => {
   const [preview, setPreview] = useState<string | null>(null);
 
   const MySwal = withReactContent(swal);
+  const MyToast = withReactContent(toast);
+
   const navigate = useNavigate();
 
-  const [cookie, setCookie] = useCookies(['user_id', 'token', 'pp', 'role']);
+  const [cookie, setCookie, removeCookie] = useCookies([
+    'id',
+    'token',
+    'avatar',
+    'role',
+  ]);
   const ckToken = cookie.token;
   const ckRole = cookie.role;
-  const ckPP = cookie.pp;
+  const ckPP = cookie.avatar;
 
-  // const fetchProfile = async () => {
-  //   setLoad(true);
-  //   await api
-  //     .getUserById(ckToken)
-  //     .then(async (response) => {
-  //       const { data } = response.data;
-  //       await setDataProfile(data);
-  //       await checkPP(data.profile_picture);
-  //       await checkRole(data.role);
-  //     })
-  //     .catch((error) => {
-  //       const { data } = error.response;
-  //       MySwal.fire({
-  //         icon: 'error',
-  //         title: 'Failed',
-  //         text: `error :  ${data.message}`,
-  //         showCancelButton: false,
-  //       });
-  //     })
-  //     .finally(() => setLoad(false));
-  // };
+  const fetchProfile = async () => {
+    setLoad(true);
+    await api
+      .getUserById(ckToken)
+      .then((response) => {
+        const { data } = response.data;
+        setDataProfile(data);
+        //   await checkPP(data.profile_picture);
+      })
+      .catch((error) => {
+        const { data } = error.response;
+        MySwal.fire({
+          icon: 'error',
+          title: 'Failed',
+          text: `error :  ${data.message}`,
+          showCancelButton: false,
+        });
+      })
+      .finally(() => setLoad(false));
+  };
+
+  const putUsers = async (datad?: any) => {
+    setLoad(true);
+    await api
+      .putUserById(ckToken, datad)
+      .then((response) => {
+        const { message } = response.data;
+        fetchProfile();
+        resetAllFormik();
+
+        MyToast.fire({
+          icon: 'success',
+          title: message,
+        });
+      })
+      .catch((error) => {
+        const { data } = error.response;
+        MySwal.fire({
+          icon: 'error',
+          title: 'Failed',
+          text: `error :  ${data.message}`,
+          showCancelButton: false,
+        });
+      })
+      .finally(() => setLoad(false));
+  };
+
+  const delUser = async () => {
+    await api
+      .delUserById(ckToken)
+      .then((response) => {
+        const { message } = response.data;
+
+        removeCookie('role');
+        removeCookie('avatar');
+        removeCookie('id');
+        removeCookie('token');
+        navigate('/landing');
+
+        MyToast.fire({
+          icon: 'success',
+          title: message,
+        });
+      })
+      .catch((error) => {
+        MySwal.fire({
+          icon: 'error',
+          title: 'Failed',
+          text: `error :  ${error.message}`,
+          showCancelButton: false,
+        });
+      });
+  };
+
+  const handleDelUser = async () => {
+    MySwal.fire({
+      icon: 'question',
+      title: 'Hapus Akun',
+      text: `Apakah Anda yakin ingin menghapus akun anda?`,
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        delUser();
+      }
+    });
+  };
 
   const checkPP = async (data: string) => {
     if (ckPP !== data && data !== undefined) {
-      await setCookie('pp', data, { path: '/' });
+      await setCookie('avatar', data, { path: '/' });
     }
   };
   const checkRole = async (data: string) => {
     if (ckRole !== data && data !== undefined) {
       await setCookie('role', data, { path: '/' });
     }
+  };
+
+  const resetAllFormik = () => {
+    formikFullname.resetForm();
+    formikEmail.resetForm();
+    formikPhone.resetForm();
+    formikBank.resetForm();
+    formikAccountNumber.resetForm();
+    formikAddress.resetForm();
+    formikPassword.resetForm();
+    formikAvatar.resetForm();
+    setPreview(null);
   };
 
   //FORMIK
@@ -113,7 +198,7 @@ const Profile = () => {
     },
     validationSchema: schemaFullname,
     onSubmit: async (values) => {
-      console.log(values);
+      await putUsers(values);
     },
   });
   const formikEmail = useFormik({
@@ -122,7 +207,7 @@ const Profile = () => {
     },
     validationSchema: schemaEmail,
     onSubmit: async (values) => {
-      console.log(values);
+      await putUsers(values);
     },
   });
   const formikPhone = useFormik({
@@ -131,7 +216,8 @@ const Profile = () => {
     },
     validationSchema: schemaPhone,
     onSubmit: async (values) => {
-      console.log(values);
+      values.phone = values.phone.toString();
+      await putUsers(values);
     },
   });
   const formikBank = useFormik({
@@ -140,7 +226,7 @@ const Profile = () => {
     },
     validationSchema: schemaBank,
     onSubmit: async (values) => {
-      console.log(values);
+      await putUsers(values);
     },
   });
   const formikAddress = useFormik({
@@ -149,16 +235,17 @@ const Profile = () => {
     },
     validationSchema: schemaAddress,
     onSubmit: async (values) => {
-      console.log(values);
+      await putUsers(values);
     },
   });
-  const formikNoRekening = useFormik({
+  const formikAccountNumber = useFormik({
     initialValues: {
-      noRekening: '',
+      accountNumber: '',
     },
     validationSchema: schemaRekening,
     onSubmit: async (values) => {
-      console.log(values);
+      values.accountNumber = values.accountNumber.toString();
+      await putUsers(values);
     },
   });
   const formikAvatar = useFormik({
@@ -178,7 +265,7 @@ const Profile = () => {
     },
     validationSchema: schemaPassword,
     onSubmit: async (values) => {
-      console.log(values);
+      putUsers(values);
     },
   });
 
@@ -193,11 +280,11 @@ const Profile = () => {
   const formDataToPut = async (datad?: any) => {
     const formData = new FormData();
     formData.append('avatar', datad.avatar);
-    await console.log(formData);
+    await putUsers(formData);
   };
 
   useEffect(() => {
-    // fetchProfile();
+    fetchProfile();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -221,7 +308,7 @@ const Profile = () => {
                   id="fullname"
                   name="fullname"
                   type="text"
-                  value={dataProfil.user.fullname}
+                  value={dataProfile?.fullname}
                   disabled={true}
                 />
               </div>
@@ -274,7 +361,7 @@ const Profile = () => {
                   id="email"
                   name="email"
                   type="text"
-                  value={dataProfil.user.email}
+                  value={dataProfile?.email}
                   disabled={true}
                 />
               </div>
@@ -327,7 +414,7 @@ const Profile = () => {
                   id="phone"
                   name="phone"
                   type="text"
-                  value={dataProfil.user.phone}
+                  value={dataProfile?.phone}
                   disabled={true}
                 />
               </div>
@@ -338,7 +425,7 @@ const Profile = () => {
                   id="phone"
                   name="phone"
                   label="Telepon baru anda"
-                  type="text"
+                  type="number"
                   value={formikPhone.values.phone}
                   onChange={formikPhone.handleChange}
                   onBlur={formikPhone.handleBlur}
@@ -379,7 +466,7 @@ const Profile = () => {
                 <TextArea
                   id="address"
                   name="address"
-                  value={dataProfil.user.address}
+                  value={dataProfile?.address}
                   disabled={true}
                 />
               </div>
@@ -419,7 +506,7 @@ const Profile = () => {
           </Modals>
           <Modals id="modal-edit-rekening">
             <form
-              onSubmit={formikNoRekening.handleSubmit}
+              onSubmit={formikAccountNumber.handleSubmit}
               className="flex flex-col gap-3 items-center"
             >
               <p className="text-primary font-medium tracking-wide text-2xl mb-3">
@@ -428,10 +515,10 @@ const Profile = () => {
               <div className="flex flex-col w-full">
                 <p className=" self-start">Rekening Lama:</p>
                 <Input
-                  id="noRekening"
-                  name="noRekening"
-                  type="text"
-                  value={dataProfil.user.noRekening}
+                  id="accountNumber"
+                  name="accountNumber"
+                  type="number"
+                  value={dataProfile?.accountNumber}
                   disabled={true}
                 />
               </div>
@@ -439,15 +526,15 @@ const Profile = () => {
               <div className="flex flex-col w-full">
                 <p className=" self-start">Rekening baru:</p>{' '}
                 <Input
-                  id="noRekening"
-                  name="noRekening"
+                  id="accountNumber"
+                  name="accountNumber"
                   label="Rekening baru anda"
-                  type="text"
-                  value={formikNoRekening.values.noRekening}
-                  onChange={formikNoRekening.handleChange}
-                  onBlur={formikNoRekening.handleBlur}
-                  error={formikNoRekening.errors.noRekening}
-                  touch={formikNoRekening.touched.noRekening}
+                  type="number"
+                  value={formikAccountNumber.values.accountNumber}
+                  onChange={formikAccountNumber.handleChange}
+                  onBlur={formikAccountNumber.handleBlur}
+                  error={formikAccountNumber.errors.accountNumber}
+                  touch={formikAccountNumber.touched.accountNumber}
                 />
               </div>
 
@@ -484,7 +571,7 @@ const Profile = () => {
                   id="bank"
                   name="bank"
                   type="text"
-                  value={dataProfil.user.bank}
+                  value={dataProfile?.bank}
                   disabled={true}
                 />
               </div>
@@ -550,7 +637,7 @@ const Profile = () => {
                 />
               </div>
               <div className="flex flex-col w-full">
-                <p className=" self-start">Bank Baru:</p>{' '}
+                <p className=" self-start">Password Baru:</p>{' '}
                 <InputPass
                   id="password"
                   name="password"
@@ -671,103 +758,130 @@ const Profile = () => {
                   </div>
                 </div>
                 <div className="flex flex-col justify-center items-center">
-                  <div className="flex flex-col gap-2 mb-8">
-                    <p className="text-xl">
-                      Nama:{' '}
+                  <div className="grid grid-cols-[100px_minmax(0,_1fr)] gap-2 mb-8 max-w-max">
+                    <p className="text-xl col-span-1 ">Nama</p>
+                    <p className="text-xl col-span-1">
                       <span className="font-semibold">
-                        {' '}
-                        {dataProfil.user.fullname}
+                        {dataProfile?.fullname}
                       </span>{' '}
-                      &emsp;
+                      &ensp;
                       <label
                         htmlFor="modal-edit-fullname"
-                        className="link link-primary"
+                        className="text-primary text-base font-medium cursor-pointer hover:text-primary-focus"
                       >
-                        edit
+                        Ubah
                       </label>
                     </p>
-                    <p className="text-xl">
-                      Email:{' '}
+
+                    <p className="text-xl col-span-1">Email</p>
+                    <p className="text-xl col-span-1">
                       <span className="font-semibold">
-                        {' '}
-                        {dataProfil.user.email}
+                        {dataProfile?.email}
                       </span>{' '}
-                      &emsp;
+                      &ensp;
                       <label
                         htmlFor="modal-edit-email"
-                        className="link link-primary"
+                        className="text-primary text-base font-medium cursor-pointer hover:text-primary-focus"
                       >
-                        edit
+                        Ubah
                       </label>
                     </p>
-                    <p className="text-xl">
-                      Telepon:{' '}
+
+                    <p className="text-xl col-span-1">Telepon</p>
+                    <p className="text-xl col-span-1">
                       <span className="font-semibold">
-                        {' '}
-                        {dataProfil.user.phone}
+                        {dataProfile?.phone}
                       </span>{' '}
-                      &emsp;
+                      &ensp;
                       <label
                         htmlFor="modal-edit-phone"
-                        className="link link-primary"
+                        className="text-primary text-base font-medium cursor-pointer hover:text-primary-focus"
                       >
-                        edit
+                        Ubah
                       </label>
                     </p>
-                    <p className="text-xl">
-                      Alamat:{' '}
+
+                    <p className="text-xl col-span-1">Alamat</p>
+                    <p className="text-xl col-span-1">
                       <span className="font-semibold">
-                        {' '}
-                        {dataProfil.user.address}
+                        {dataProfile?.address}
                       </span>{' '}
-                      &emsp;
+                      &ensp;
                       <label
                         htmlFor="modal-edit-address"
-                        className="link link-primary"
+                        className="text-primary text-base font-medium cursor-pointer hover:text-primary-focus"
                       >
-                        edit
+                        Ubah
                       </label>
                     </p>
-                    <p className="text-xl">
-                      Rekening:{' '}
-                      <span className="font-semibold">
-                        {' '}
-                        {dataProfil.user.noRekening}
-                      </span>{' '}
-                      &emsp;
-                      <label
-                        htmlFor="modal-edit-rekening"
-                        className="link link-primary"
-                      >
-                        edit
-                      </label>
+
+                    <p className="text-xl col-span-1">Rekening</p>
+                    <p className="text-xl col-span-1">
+                      {dataProfile?.accountNumber ? (
+                        <>
+                          <span className="font-semibold">
+                            {dataProfile.accountNumber}
+                          </span>
+                          &ensp;
+                          <label
+                            htmlFor="modal-edit-rekening"
+                            className="text-primary text-base font-medium cursor-pointer hover:text-primary-focus"
+                          >
+                            Ubah
+                          </label>
+                        </>
+                      ) : (
+                        <>
+                          <label
+                            htmlFor="modal-edit-rekening"
+                            className="text-primary text-base font-medium cursor-pointer hover:text-primary-focus"
+                          >
+                            Tambahkan rekening
+                          </label>{' '}
+                        </>
+                      )}
                     </p>
-                    <p className="text-xl">
-                      Bank:{' '}
-                      <span className="font-semibold uppercase">
-                        {' '}
-                        {dataProfil.user.bank}
-                      </span>{' '}
-                      &emsp;
-                      <label
-                        htmlFor="modal-edit-bank"
-                        className="link link-primary"
-                      >
-                        edit
-                      </label>
+
+                    <p className="text-xl col-span-1">Bank</p>
+                    <p className="text-xl col-span-1">
+                      {dataProfile?.bank ? (
+                        <>
+                          <span className="font-semibold uppercase">
+                            {dataProfile.bank}
+                          </span>
+                          &ensp;
+                          <label
+                            htmlFor="modal-edit-bank"
+                            className="text-primary text-base font-medium cursor-pointer hover:text-primary-focus"
+                          >
+                            Ubah
+                          </label>
+                        </>
+                      ) : (
+                        <>
+                          <label
+                            htmlFor="modal-edit-bank"
+                            className="text-primary text-base font-medium cursor-pointer hover:text-primary-focus"
+                          >
+                            Tambahkan bank
+                          </label>{' '}
+                        </>
+                      )}
                     </p>
                   </div>
+
                   <div className="flex w-full pt-5 gap-4">
                     <label
                       htmlFor="modal-edit-password"
-                      className="btn btn-primary w-36 text-white"
+                      className="btn btn-primary w-36 text-primary-content"
                     >
                       Ganti Password
                     </label>
 
                     <button
-                      className="btn btn-error w-36 text-white"
+                      className="btn btn-error w-36 text-error-content"
                       disabled={ckRole === 'admin'}
+                      onClick={() => handleDelUser()}
                     >
                       Hapus Akun
                     </button>

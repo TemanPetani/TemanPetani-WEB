@@ -28,7 +28,7 @@ const NotFound = lazy(() => import('../pages/NotFound'));
 
 const Router = () => {
   const [cookie] = useCookies(['token']);
-  const ckTkn = cookie.token;
+  const ckToken = cookie.token;
 
   return (
     <BrowserRouter>
@@ -37,19 +37,19 @@ const Router = () => {
         <Routes>
           <Route
             path="/"
-            element={ckTkn ? <Homepage /> : <Navigate to="/landing" />}
+            element={ckToken ? <Homepage /> : <Navigate to="/landing" />}
           />
           <Route
             path="/landing"
-            element={ckTkn ? <Navigate to="/" /> : <Landing />}
+            element={ckToken ? <Navigate to="/" /> : <Landing />}
           />
           <Route
             path="/login"
-            element={ckTkn ? <Navigate to="/" /> : <Login />}
+            element={ckToken ? <Navigate to="/" /> : <Login />}
           />
           <Route
             path="/register"
-            element={ckTkn ? <Navigate to="/" /> : <Register />}
+            element={ckToken ? <Navigate to="/" /> : <Register />}
           />
           <Route
             path="/profile"

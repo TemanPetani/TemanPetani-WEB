@@ -126,28 +126,28 @@ const Register = () => {
               />
 
               <Input
-                id="input-address"
-                name="address"
-                label="Ketik alamat anda disini"
-                type="text"
-                value={values.address}
+                id="input-email"
+                name="email"
+                label="Ketik email anda disini"
+                type="email"
+                value={values.email}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={errors.address}
-                touch={touched.address}
+                error={errors.email}
+                touch={touched.email}
               />
             </div>
 
             <Input
-              id="input-email"
-              name="email"
-              label="Ketik email anda disini"
-              type="email"
-              value={values.email}
+              id="input-address"
+              name="address"
+              label="Ketik alamat anda disini"
+              type="text"
+              value={values.address}
               onChange={handleChange}
               onBlur={handleBlur}
-              error={errors.email}
-              touch={touched.email}
+              error={errors.address}
+              touch={touched.address}
             />
 
             <InputPass
