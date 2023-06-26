@@ -12,4 +12,7 @@ export interface PostRegis extends PostLogin {
 export interface getUsers extends PostRegis {
   avatar?: string;
   role?: string;
+  id?: number;
+  bank?: string;
+  noRekening?: string;
 }

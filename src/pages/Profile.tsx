@@ -23,6 +23,7 @@ import {
   Select,
   TextArea,
 } from '../components/Input';
+import api from '../utils/api';
 
 // SCHEMA YUP
 const schemaEmail = Yup.object().shape({
@@ -72,27 +73,28 @@ const Profile = () => {
   const ckRole = cookie.role;
   const ckPP = cookie.pp;
 
-  // const fetchProfile = async () => {
-  //   setLoad(true);
-  //   await api
-  //     .getUserById(ckToken)
-  //     .then(async (response) => {
-  //       const { data } = response.data;
-  //       await setDataProfile(data);
-  //       await checkPP(data.profile_picture);
-  //       await checkRole(data.role);
-  //     })
-  //     .catch((error) => {
-  //       const { data } = error.response;
-  //       MySwal.fire({
-  //         icon: 'error',
-  //         title: 'Failed',
-  //         text: `error :  ${data.message}`,
-  //         showCancelButton: false,
-  //       });
-  //     })
-  //     .finally(() => setLoad(false));
-  // };
+  const fetchProfile = async () => {
+    setLoad(true);
+    await api
+      .getUserById(ckToken)
+      .then((response) => {
+        const { data } = response.data;
+        console.log(data);
+        setDataProfile(data);
+        //   await checkPP(data.profile_picture);
+        //   await checkRole(data.role);
+      })
+      .catch((error) => {
+        const { data } = error.response;
+        MySwal.fire({
+          icon: 'error',
+          title: 'Failed',
+          text: `error :  ${data.message}`,
+          showCancelButton: false,
+        });
+      })
+      .finally(() => setLoad(false));
+  };
 
   const checkPP = async (data: string) => {
     if (ckPP !== data && data !== undefined) {
@@ -197,7 +199,7 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    // fetchProfile();
+    fetchProfile();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -221,7 +223,7 @@ const Profile = () => {
                   id="fullname"
                   name="fullname"
                   type="text"
-                  value={dataProfil.user.fullname}
+                  value={dataProfile?.fullname}
                   disabled={true}
                 />
               </div>
@@ -274,7 +276,7 @@ const Profile = () => {
                   id="email"
                   name="email"
                   type="text"
-                  value={dataProfil.user.email}
+                  value={dataProfile?.email}
                   disabled={true}
                 />
               </div>
@@ -327,7 +329,7 @@ const Profile = () => {
                   id="phone"
                   name="phone"
                   type="text"
-                  value={dataProfil.user.phone}
+                  value={dataProfile?.phone}
                   disabled={true}
                 />
               </div>
@@ -379,7 +381,7 @@ const Profile = () => {
                 <TextArea
                   id="address"
                   name="address"
-                  value={dataProfil.user.address}
+                  value={dataProfile?.address}
                   disabled={true}
                 />
               </div>
@@ -431,7 +433,7 @@ const Profile = () => {
                   id="noRekening"
                   name="noRekening"
                   type="text"
-                  value={dataProfil.user.noRekening}
+                  value={dataProfile?.noRekening}
                   disabled={true}
                 />
               </div>
@@ -484,7 +486,7 @@ const Profile = () => {
                   id="bank"
                   name="bank"
                   type="text"
-                  value={dataProfil.user.bank}
+                  value={dataProfile?.bank}
                   disabled={true}
                 />
               </div>
@@ -671,92 +673,118 @@ const Profile = () => {
                   </div>
                 </div>
                 <div className="flex flex-col justify-center items-center">
-                  <div className="flex flex-col gap-2 mb-8">
-                    <p className="text-xl">
-                      Nama:{' '}
+                  <div className="grid grid-cols-[100px_minmax(0,_1fr)] gap-2 mb-8 max-w-max">
+                    <p className="text-xl col-span-1 ">Nama</p>
+                    <p className="text-xl col-span-1">
                       <span className="font-semibold">
-                        {' '}
-                        {dataProfil.user.fullname}
+                        {dataProfile?.fullname}
                       </span>{' '}
-                      &emsp;
+                      &ensp;
                       <label
                         htmlFor="modal-edit-fullname"
-                        className="link link-primary"
+                        className="text-primary text-base font-medium cursor-pointer hover:text-primary-focus"
                       >
-                        edit
+                        Ubah
                       </label>
                     </p>
-                    <p className="text-xl">
-                      Email:{' '}
+
+                    <p className="text-xl col-span-1">Email</p>
+                    <p className="text-xl col-span-1">
                       <span className="font-semibold">
-                        {' '}
-                        {dataProfil.user.email}
+                        {dataProfile?.email}
                       </span>{' '}
-                      &emsp;
+                      &ensp;
                       <label
                         htmlFor="modal-edit-email"
-                        className="link link-primary"
+                        className="text-primary text-base font-medium cursor-pointer hover:text-primary-focus"
                       >
-                        edit
+                        Ubah
                       </label>
                     </p>
-                    <p className="text-xl">
-                      Telepon:{' '}
+
+                    <p className="text-xl col-span-1">Telepon</p>
+                    <p className="text-xl col-span-1">
                       <span className="font-semibold">
-                        {' '}
-                        {dataProfil.user.phone}
+                        {dataProfile?.phone}
                       </span>{' '}
-                      &emsp;
+                      &ensp;
                       <label
                         htmlFor="modal-edit-phone"
-                        className="link link-primary"
+                        className="text-primary text-base font-medium cursor-pointer hover:text-primary-focus"
                       >
-                        edit
+                        Ubah
                       </label>
                     </p>
-                    <p className="text-xl">
-                      Alamat:{' '}
+
+                    <p className="text-xl col-span-1">Alamat</p>
+                    <p className="text-xl col-span-1">
                       <span className="font-semibold">
-                        {' '}
-                        {dataProfil.user.address}
+                        {dataProfile?.address}
                       </span>{' '}
-                      &emsp;
+                      &ensp;
                       <label
                         htmlFor="modal-edit-address"
-                        className="link link-primary"
+                        className="text-primary text-base font-medium cursor-pointer hover:text-primary-focus"
                       >
-                        edit
+                        Ubah
                       </label>
                     </p>
-                    <p className="text-xl">
-                      Rekening:{' '}
-                      <span className="font-semibold">
-                        {' '}
-                        {dataProfil.user.noRekening}
-                      </span>{' '}
-                      &emsp;
-                      <label
-                        htmlFor="modal-edit-rekening"
-                        className="link link-primary"
-                      >
-                        edit
-                      </label>
+
+                    <p className="text-xl col-span-1">Rekening</p>
+                    <p className="text-xl col-span-1">
+                      {dataProfile?.noRekening ? (
+                        <>
+                          <span className="font-semibold">
+                            {dataProfile.noRekening}
+                          </span>
+                          &ensp;
+                          <label
+                            htmlFor="modal-edit-rekening"
+                            className="text-primary text-base font-medium cursor-pointer hover:text-primary-focus"
+                          >
+                            Ubah
+                          </label>
+                        </>
+                      ) : (
+                        <>
+                          <label
+                            htmlFor="modal-edit-rekening"
+                            className="text-primary text-base font-medium cursor-pointer hover:text-primary-focus"
+                          >
+                            Tambahkan rekening
+                          </label>{' '}
+                        </>
+                      )}
                     </p>
-                    <p className="text-xl">
-                      Bank:{' '}
-                      <span className="font-semibold uppercase">
-                        {' '}
-                        {dataProfil.user.bank}
-                      </span>{' '}
-                      &emsp;
-                      <label
-                        htmlFor="modal-edit-bank"
-                        className="link link-primary"
-                      >
-                        edit
-                      </label>
+
+                    <p className="text-xl col-span-1">Bank</p>
+                    <p className="text-xl col-span-1">
+                      {dataProfile?.bank ? (
+                        <>
+                          <span className="font-semibold uppercase">
+                            {dataProfile.bank}
+                          </span>
+                          &ensp;
+                          <label
+                            htmlFor="modal-edit-bank"
+                            className="text-primary text-base font-medium cursor-pointer hover:text-primary-focus"
+                          >
+                            Ubah
+                          </label>
+                        </>
+                      ) : (
+                        <>
+                          <label
+                            htmlFor="modal-edit-bank"
+                            className="text-primary text-base font-medium cursor-pointer hover:text-primary-focus"
+                          >
+                            Tambahkan bank
+                          </label>{' '}
+                        </>
+                      )}
                     </p>
                   </div>
+
                   <div className="flex w-full pt-5 gap-4">
                     <label
                       htmlFor="modal-edit-password"
