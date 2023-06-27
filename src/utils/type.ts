@@ -24,7 +24,7 @@ export interface getAllProduct {
   stock?: number;
   description?: string;
   imageUrl?: string;
-  owner?: UserProduct;
+  owner?: UserProduct[];
 }
 
 export interface UserProduct {
@@ -37,4 +37,14 @@ export interface UserProduct {
 export interface GetTemplates {
   name?: string;
   id?: number;
+}
+
+export interface GetTasks extends GetTemplates {
+  tasks: GetTaskDetail[];
+}
+
+export interface GetTaskDetail {
+  name?: string;
+  id?: number;
+  startDays?: number;
 }
