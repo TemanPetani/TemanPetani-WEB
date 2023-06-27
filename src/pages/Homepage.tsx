@@ -1,21 +1,58 @@
 import Layout from '../components/Layout';
-import { Suspense, lazy } from 'react';
-import { data as dummyData } from '../json/dummyProduk.json';
-import { data as dummyAlat } from '../json/dummyAlat.json';
+import { Suspense, lazy, useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { Link, useNavigate } from 'react-router-dom';
 import imgBwh from '../assets/hero_unsplash_3.png';
 import { FaArrowRight } from 'react-icons/fa';
+import api from '../utils/api';
+import swal from '../utils/swal';
+import withReactContent from 'sweetalert2-react-content';
+import { getAllProduct } from '../utils/type';
+import LoadingFull from '../components/LoadingFull';
 
 const CardHome = lazy(() => import('../components/CardHome'));
 
 function Homepage() {
-  const [cookie] = useCookies(['role']);
+  const [dataHomepage, setDataHomepage] = useState<getAllProduct[]>([]);
+
+  const [load, setLoad] = useState<boolean>(false);
+  const [cookie] = useCookies(['role', 'token']);
+
+  const ckToken = cookie.token;
   const ckRole = cookie.role;
   const navigate = useNavigate();
+  const MySwal = withReactContent(swal);
+
+  const fetchProduct = async () => {
+    setLoad(true);
+    await api
+      .getProductAll(ckToken, ckRole)
+      .then(async (response) => {
+        const { data } = response.data;
+        await setDataHomepage(data.products);
+      })
+      .catch((error) => {
+        const { data } = error.response;
+        MySwal.fire({
+          icon: 'error',
+          title: 'Failed',
+          text: `error :  ${data.message}`,
+          showCancelButton: false,
+        });
+      })
+      .finally(() => setLoad(false));
+  };
+
+  useEffect(() => {
+    fetchProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Layout chose="layout">
-      {ckRole === 'admin' ? (
+      {load ? (
+        <LoadingFull />
+      ) : ckRole === 'admin' ? (
         <Layout
           chose="section"
           addClass="w-full min-h-screen -mt-[67px] xl:-mt-[64px]  px-16 py-8 md:py-16 flex  items-center bg-base-200/20"
@@ -33,16 +70,16 @@ function Homepage() {
                 }
               >
                 <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                  {dummyData.map((data, idx) => {
+                  {dataHomepage?.map((data, idx) => {
                     return (
                       <CardHome
                         key={idx}
-                        id={data.productName}
-                        image={data.image}
-                        text={data.productName}
+                        id={data.id}
+                        image={data.imageUrl}
+                        text={data.name}
                         label="detail"
-                        price={data.price.toString()}
-                        stok={data.quantity.toString()}
+                        price={data.price?.toString()}
+                        stok={data.stock?.toString()}
                         onClick={() => navigate(`/detail/produk/${idx}`)}
                       />
                     );
@@ -71,16 +108,16 @@ function Homepage() {
                   }
                 >
                   <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    {dummyAlat.map((data, idx) => {
+                    {dataHomepage?.map((data, idx) => {
                       return (
                         <CardHome
                           key={idx}
-                          id={data.productName}
-                          image={data.image}
-                          text={data.productName}
+                          id={data.id}
+                          image={data.imageUrl}
+                          text={data.name}
                           label="detail"
-                          price={data.price.toString()}
-                          stok={data.quantity.toString()}
+                          price={data.price?.toString()}
+                          stok={data.stock?.toString()}
                           onClick={() => navigate(`/detail/alat/${idx}`)}
                         />
                       );

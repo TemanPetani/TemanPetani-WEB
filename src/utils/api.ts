@@ -80,4 +80,13 @@ export default {
         Authorization: `Bearer ${token}`,
       },
     }),
+
+  getProductAll: (token?: string, role?: string) =>
+    instance({
+      method: 'GET',
+      url: `products/?role=${role}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
 };

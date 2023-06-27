@@ -53,7 +53,6 @@ function MyProduct() {
       .postProduct(ckToken, datad)
       .then((response) => {
         const { message, data } = response.data;
-        console.log(response);
         putProductImage(datad, data.productId);
 
         MyToast.fire({
@@ -69,6 +68,7 @@ function MyProduct() {
           text: `error :  ${data.message}`,
           showCancelButton: false,
         });
+        setLoad(false);
       });
   };
 

@@ -16,3 +16,20 @@ export interface getUsers extends PostRegis {
   bank?: string;
   accountNumber?: string;
 }
+
+export interface getAllProduct {
+  id?: string;
+  name?: string;
+  price?: number;
+  stock?: number;
+  description?: string;
+  imageUrl?: string;
+  owner?: UserProduct;
+}
+
+export interface UserProduct {
+  id?: string;
+  fullname?: string;
+  email?: string;
+  role?: string;
+}
