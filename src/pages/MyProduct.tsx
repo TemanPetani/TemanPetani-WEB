@@ -1,6 +1,5 @@
 import Layout from '../components/Layout';
-import { Suspense, lazy, useState } from 'react';
-import { data as dummyData } from '../json/dummyProduk.json';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
@@ -11,6 +10,7 @@ import api from '../utils/api';
 import withReactContent from 'sweetalert2-react-content';
 import swal from '../utils/swal';
 import toast from '../utils/toast';
+import { getAllProduct } from '../utils/type';
 
 const CardHome = lazy(() => import('../components/CardHome'));
 
@@ -23,10 +23,14 @@ const schemaAddProduct = Yup.object().shape({
 });
 
 function MyProduct() {
-  const [cookie] = useCookies(['token']);
+  const [cookie] = useCookies(['token', 'role', 'id']);
   const ckToken = cookie.token;
+  const ckRole = cookie.role;
+  const ckId = cookie.id;
+
   const navigate = useNavigate();
   const [load, setLoad] = useState<boolean>(false);
+  const [dataMyPeroducts, setDataMyPeroducts] = useState<getAllProduct[]>([]);
 
   const [preview, setPreview] = useState<string | null>(null);
 
@@ -46,6 +50,30 @@ function MyProduct() {
       formDataToPost(values);
     },
   });
+
+  const fetchProduct = async () => {
+    setLoad(true);
+    await api
+      .getMyProduct(ckToken, ckRole)
+      .then(async (response) => {
+        const { data } = response.data;
+        const filteredProducts: getAllProduct[] = data.products.filter(
+          (product: getAllProduct) => product.owner?.id === ckId
+        );
+
+        await setDataMyPeroducts(filteredProducts);
+      })
+      .catch((error) => {
+        const { data } = error.response;
+        MySwal.fire({
+          icon: 'error',
+          title: 'Failed',
+          text: `error :  ${data.message}`,
+          showCancelButton: false,
+        });
+      })
+      .finally(() => setLoad(false));
+  };
 
   const postProduct = async (datad?: any) => {
     setLoad(true);
@@ -72,7 +100,7 @@ function MyProduct() {
       });
   };
 
-  const putProductImage = async (datad?: any, productId?: string) => {
+  const putProductImage = async (datad?: FormData, productId?: string) => {
     await api
       .putProductImage(ckToken, datad, productId)
       .then(() => {
@@ -108,6 +136,11 @@ function MyProduct() {
       setPreview(URL.createObjectURL(file));
     }
   };
+
+  useEffect(() => {
+    fetchProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Layout chose="layout">
@@ -261,16 +294,16 @@ function MyProduct() {
               }
             >
               <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                {dummyData.map((data, idx) => {
+                {dataMyPeroducts?.map((data, idx) => {
                   return (
                     <CardHome
                       key={idx}
-                      id={data.productName}
-                      image={data.image}
-                      text={data.productName}
-                      label="Edit"
-                      price={data.price.toString()}
-                      stok={data.quantity.toString()}
+                      id={data.id}
+                      image={data.imageUrl}
+                      text={data.name}
+                      label="edit"
+                      price={data.price?.toString()}
+                      stok={data.stock?.toString()}
                       onClick={() => navigate(`/edit/${idx}`)}
                     />
                   );
