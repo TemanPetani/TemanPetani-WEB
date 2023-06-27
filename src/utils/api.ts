@@ -109,4 +109,14 @@ export default {
         Authorization: `Bearer ${token}`,
       },
     }),
+
+  postTemplates: (token?: string, code?: object) =>
+    instance({
+      method: 'POST',
+      url: `templates`,
+      data: code,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
 };

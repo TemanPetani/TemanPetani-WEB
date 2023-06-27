@@ -20,6 +20,7 @@ const schemaAddPlant = Yup.object().shape({
 function JadwalTanam() {
   const [dataTemplates, setDataTemplates] = useState<GetTemplates[]>([]);
   const [load, setLoad] = useState<boolean>(false);
+  const [loadPost, setLoadPost] = useState<boolean>(false);
 
   const [cookie] = useCookies(['role', 'token']);
   const ckToken = cookie.token;
@@ -34,7 +35,7 @@ function JadwalTanam() {
     },
     validationSchema: schemaAddPlant,
     onSubmit: async (values) => {
-      console.log(values);
+      postTemplates(values);
     },
   });
 
@@ -45,7 +46,6 @@ function JadwalTanam() {
       .then(async (response) => {
         const { data } = response.data;
         await setDataTemplates(data);
-        console.log(data);
       })
       .catch((error) => {
         const { data } = error.response;
@@ -57,6 +57,34 @@ function JadwalTanam() {
         });
       })
       .finally(() => setLoad(false));
+  };
+
+  const postTemplates = async (datad?: object) => {
+    setLoadPost(true);
+    await api
+      .postTemplates(ckToken, datad)
+      .then((response) => {
+        const { message } = response.data;
+        MySwal.fire({
+          text: message,
+          icon: 'success',
+          showCancelButton: false,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            fetchJadwalTanam();
+          }
+        });
+      })
+      .catch((error) => {
+        const { data } = error.response;
+        MySwal.fire({
+          icon: 'error',
+          title: 'Failed',
+          text: `error :  ${data.message}`,
+          showCancelButton: false,
+        });
+        setLoadPost(false);
+      });
   };
 
   useEffect(() => {
@@ -97,19 +125,31 @@ function JadwalTanam() {
 
               <div className="w-full flex justify-end gap-3">
                 <div className="modal-action mt-0 ">
-                  <label
-                    htmlFor="modal-add-plant"
-                    className="btn btn-ghost"
-                  >
-                    Kembali
-                  </label>
-                  <button
-                    id="btn-submit-plant"
-                    type="submit"
-                    className="btn btn-primary w-32 text-white"
-                  >
-                    Simpan
-                  </button>
+                  {loadPost === true ? (
+                    <button
+                      id="login-button-loading"
+                      className="btn btn-primary mt-3 w-32 text-white "
+                      type="button"
+                    >
+                      <span className="loading loading-spinner"></span>
+                    </button>
+                  ) : (
+                    <>
+                      <label
+                        htmlFor="modal-add-plant"
+                        className="btn btn-ghost"
+                      >
+                        Kembali
+                      </label>
+                      <button
+                        id="btn-submit-plant"
+                        type="submit"
+                        className="btn btn-primary w-32 text-white"
+                      >
+                        Simpan
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
             </form>
