@@ -119,4 +119,14 @@ export default {
         Authorization: `Bearer ${token}`,
       },
     }),
+
+  putTemplates: (token?: string, id?: string, data?: object) =>
+    instance({
+      method: 'PUT',
+      url: `templates/${id}`,
+      data: data,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
 };

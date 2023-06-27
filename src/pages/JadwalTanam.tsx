@@ -1,6 +1,6 @@
 import Layout from '../components/Layout';
 import { useNavigate } from 'react-router-dom';
-import { FaPen, FaTrashAlt } from 'react-icons/fa';
+import { FaClipboardList, FaPen, FaTrashAlt } from 'react-icons/fa';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Modals } from '../components/Modals';
@@ -20,6 +20,7 @@ const schemaAddPlant = Yup.object().shape({
 function JadwalTanam() {
   const [dataTemplates, setDataTemplates] = useState<GetTemplates[]>([]);
   const [load, setLoad] = useState<boolean>(false);
+  const [idEdit, setIdEdit] = useState<string>();
   const [loadPost, setLoadPost] = useState<boolean>(false);
 
   const [cookie] = useCookies(['role', 'token']);
@@ -38,6 +39,20 @@ function JadwalTanam() {
       postTemplates(values);
     },
   });
+  const formikEditPlant = useFormik({
+    initialValues: {
+      name: '',
+    },
+    validationSchema: schemaAddPlant,
+    onSubmit: async (values) => {
+      putTemplates(values);
+    },
+  });
+
+  const handleModalEdit = (name?: string, id?: number) => {
+    formikEditPlant.setFieldValue('name', name);
+    setIdEdit(id?.toString());
+  };
 
   const fetchJadwalTanam = async () => {
     setLoad(true);
@@ -83,8 +98,36 @@ function JadwalTanam() {
           text: `error :  ${data.message}`,
           showCancelButton: false,
         });
-        setLoadPost(false);
-      });
+      })
+      .finally(() => setLoadPost(false));
+  };
+
+  const putTemplates = async (datad?: object) => {
+    setLoadPost(true);
+    await api
+      .putTemplates(ckToken, idEdit, datad)
+      .then((response) => {
+        const { message } = response.data;
+        MySwal.fire({
+          text: message,
+          icon: 'success',
+          showCancelButton: false,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            fetchJadwalTanam();
+          }
+        });
+      })
+      .catch((error) => {
+        const { data } = error.response;
+        MySwal.fire({
+          icon: 'error',
+          title: 'Failed',
+          text: `error :  ${data.message}`,
+          showCancelButton: false,
+        });
+      })
+      .finally(() => setLoadPost(false));
   };
 
   useEffect(() => {
@@ -154,6 +197,62 @@ function JadwalTanam() {
               </div>
             </form>
           </Modals>
+          <Modals id="modal-edit-plant">
+            <form
+              onSubmit={formikEditPlant.handleSubmit}
+              className="flex flex-col gap-3 items-center"
+            >
+              <p className="text-primary font-medium tracking-wide text-2xl mb-3">
+                Ubah Nama Jadwal
+              </p>
+              <div className="w-full flex md:flex-row flex-col  justify-center items-cente gap-3">
+                <div className="flex flex-col w-full">
+                  <p className=" self-start">Nama Tanaman:</p>{' '}
+                  <Input
+                    id="name"
+                    name="name"
+                    label="Nama Tanaman"
+                    type="text"
+                    value={formikEditPlant.values.name}
+                    onChange={formikEditPlant.handleChange}
+                    onBlur={formikEditPlant.handleBlur}
+                    error={formikEditPlant.errors.name}
+                    touch={formikEditPlant.touched.name}
+                  />
+                </div>
+              </div>
+
+              <div className="w-full flex justify-end gap-3">
+                <div className="modal-action mt-0 ">
+                  {loadPost === true ? (
+                    <button
+                      id="login-button-loading"
+                      className="btn btn-primary mt-3 w-32 text-white "
+                      type="button"
+                    >
+                      <span className="loading loading-spinner"></span>
+                    </button>
+                  ) : (
+                    <>
+                      <label
+                        htmlFor="modal-edit-plant"
+                        className="btn btn-ghost"
+                      >
+                        Kembali
+                      </label>
+                      <button
+                        id="btn-submit-plant"
+                        type="submit"
+                        className="btn btn-primary w-32 text-white"
+                      >
+                        Simpan
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
+            </form>
+          </Modals>
           <Layout
             chose="section"
             addClass="w-full min-h-screen -mt-[67px] xl:-mt-[64px]  px-16 py-8 md:py-16 flex  items-start "
@@ -177,8 +276,9 @@ function JadwalTanam() {
                       <tr>
                         <th className="w-[10%]"></th>
                         <th className="w-[60%]">Nama Tanaman</th>
-                        <th className="w-[15%]">Edit</th>
-                        <th className="w-[15%]">Hapus</th>
+                        <th className="w-[10%]">Detail</th>
+                        <th className="w-[10%]">Ubah</th>
+                        <th className="w-[10%]">Hapus</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -194,8 +294,19 @@ function JadwalTanam() {
                                 }
                                 className="btn p-0 min-h-0 h-0 p text-base"
                               >
-                                <FaPen />
+                                <FaClipboardList />
                               </button>
+                            </td>
+                            <td>
+                              <label
+                                htmlFor="modal-edit-plant"
+                                onClick={() =>
+                                  handleModalEdit(prop.name, prop.id)
+                                }
+                                className="btn p-0 min-h-0 h-0 p text-base"
+                              >
+                                <FaPen />
+                              </label>
                             </td>
                             <td>
                               <button className="btn p-0 min-h-0 h-0 p text-base">
