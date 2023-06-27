@@ -49,16 +49,6 @@ export default {
       },
     }),
 
-  putUserRoleById: (token?: string, data?: any) =>
-    instance({
-      method: 'PUT',
-      url: `users/role`,
-      data: data,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }),
-
   // ----- products -----
 
   postProduct: (token?: string, code?: FormData) =>
@@ -85,6 +75,55 @@ export default {
     instance({
       method: 'GET',
       url: `products/?role=${role}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  // ----- Template Tasks -----
+
+  getAllTemplates: (token?: string) =>
+    instance({
+      method: 'GET',
+      url: `templates/`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  getTemplatesById: (token?: string, code?: string) =>
+    instance({
+      method: 'GET',
+      url: `templates/${code}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  postTemplates: (token?: string, code?: object) =>
+    instance({
+      method: 'POST',
+      url: `templates`,
+      data: code,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  putTemplates: (token?: string, id?: string, data?: object) =>
+    instance({
+      method: 'PUT',
+      url: `templates/${id}`,
+      data: data,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  delTemplates: (token?: string, id?: string) =>
+    instance({
+      method: 'DELETE',
+      url: `templates/${id}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },

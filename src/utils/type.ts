@@ -33,3 +33,8 @@ export interface UserProduct {
   email?: string;
   role?: string;
 }
+
+export interface GetTemplates {
+  name?: string;
+  id?: number;
+}

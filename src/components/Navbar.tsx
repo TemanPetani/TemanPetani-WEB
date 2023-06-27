@@ -42,7 +42,7 @@ const Navbar: FC<Props> = ({ styled }) => {
   return (
     <div
       className={`navbar px-16 sticky top-0 z-50 shadow-xl, ${
-        styled === 'glass' ? `bg-neutral/30 backdrop-blur-sm` : 'bg-primary'
+        styled === 'glass' ? `bg-black/30 backdrop-blur-sm` : 'bg-primary'
       } `}
     >
       <div className="flex-1">
