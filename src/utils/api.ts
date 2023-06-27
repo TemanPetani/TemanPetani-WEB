@@ -49,16 +49,6 @@ export default {
       },
     }),
 
-  putUserRoleById: (token?: string, data?: any) =>
-    instance({
-      method: 'PUT',
-      url: `users/role`,
-      data: data,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }),
-
   // ----- products -----
 
   postProduct: (token?: string, code?: FormData) =>
@@ -125,6 +115,15 @@ export default {
       method: 'PUT',
       url: `templates/${id}`,
       data: data,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  delTemplates: (token?: string, id?: string) =>
+    instance({
+      method: 'DELETE',
+      url: `templates/${id}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },

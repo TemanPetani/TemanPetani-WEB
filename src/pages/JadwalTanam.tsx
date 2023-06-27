@@ -12,6 +12,7 @@ import { useCookies } from 'react-cookie';
 import swal from '../utils/swal';
 import withReactContent from 'sweetalert2-react-content';
 import LoadingFull from '../components/LoadingFull';
+import toast from '../utils/toast';
 
 const schemaAddPlant = Yup.object().shape({
   name: Yup.string().required('Required'),
@@ -25,10 +26,10 @@ function JadwalTanam() {
 
   const [cookie] = useCookies(['role', 'token']);
   const ckToken = cookie.token;
-  const ckRole = cookie.role;
 
   const navigate = useNavigate();
   const MySwal = withReactContent(swal);
+  const MyToast = withReactContent(toast);
 
   const formikAddPlant = useFormik({
     initialValues: {
@@ -108,15 +109,12 @@ function JadwalTanam() {
       .putTemplates(ckToken, idEdit, datad)
       .then((response) => {
         const { message } = response.data;
-        MySwal.fire({
-          text: message,
+
+        MyToast.fire({
           icon: 'success',
-          showCancelButton: false,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            fetchJadwalTanam();
-          }
+          title: message,
         });
+        fetchJadwalTanam();
       })
       .catch((error) => {
         const { data } = error.response;
@@ -128,6 +126,40 @@ function JadwalTanam() {
         });
       })
       .finally(() => setLoadPost(false));
+  };
+
+  const delTemplates = async (id?: string) => {
+    await api
+      .delTemplates(ckToken, id)
+      .then((response) => {
+        const { message } = response.data;
+        MyToast.fire({
+          icon: 'success',
+          title: message,
+        });
+        fetchJadwalTanam();
+      })
+      .catch((error) => {
+        MySwal.fire({
+          icon: 'error',
+          title: 'Failed',
+          text: `error :  ${error.message}`,
+          showCancelButton: false,
+        });
+      });
+  };
+
+  const handleDelUser = async (name?: string, id?: number) => {
+    MySwal.fire({
+      icon: 'question',
+      title: 'Hapus Jadwal',
+      text: `ingin menghapus ${name}`,
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        delTemplates(id?.toString());
+      }
+    });
   };
 
   useEffect(() => {
@@ -274,8 +306,8 @@ function JadwalTanam() {
                   <table className="table bg-base-100">
                     <thead>
                       <tr>
-                        <th className="w-[10%]"></th>
-                        <th className="w-[60%]">Nama Tanaman</th>
+                        <th className="w-[5%]"></th>
+                        <th className="w-[65%]">Nama Tanaman</th>
                         <th className="w-[10%]">Detail</th>
                         <th className="w-[10%]">Ubah</th>
                         <th className="w-[10%]">Hapus</th>
@@ -309,7 +341,12 @@ function JadwalTanam() {
                               </label>
                             </td>
                             <td>
-                              <button className="btn p-0 min-h-0 h-0 p text-base">
+                              <button
+                                onClick={() =>
+                                  handleDelUser(prop.name, prop.id)
+                                }
+                                className="btn p-0 min-h-0 h-0 p text-base"
+                              >
                                 <FaTrashAlt />
                               </button>
                             </td>

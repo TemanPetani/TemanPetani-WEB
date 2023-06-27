@@ -6,6 +6,7 @@ export default Swal.mixin({
   showConfirmButton: false,
   timer: 2500,
   timerProgressBar: true,
+
   didOpen: (toast) => {
     toast.addEventListener('mouseenter', Swal.stopTimer);
     toast.addEventListener('mouseleave', Swal.resumeTimer);
