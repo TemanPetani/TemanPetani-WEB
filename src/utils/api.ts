@@ -80,21 +80,12 @@ export default {
       },
     }),
 
-  // ----- Template Tasks -----
+  // ----- Template -----
 
   getAllTemplates: (token?: string) =>
     instance({
       method: 'GET',
       url: `templates/`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }),
-
-  getTemplatesById: (token?: string, code?: string) =>
-    instance({
-      method: 'GET',
-      url: `templates/${code}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -124,6 +115,46 @@ export default {
     instance({
       method: 'DELETE',
       url: `templates/${id}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  // ----- tasks -----
+
+  getTemplatesById: (token?: string, id?: string) =>
+    instance({
+      method: 'GET',
+      url: `templates/${id}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  postTasks: (token?: string, id?: string, data?: object) =>
+    instance({
+      method: 'POST',
+      url: `templates/${id}/tasks`,
+      data: data,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  putTasks: (token?: string, id?: string, data?: object) =>
+    instance({
+      method: 'PUT',
+      url: `templates/tasks/${id}`,
+      data: data,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  delTasks: (token?: string, id?: string) =>
+    instance({
+      method: 'DELETE',
+      url: `templates/tasks/${id}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
