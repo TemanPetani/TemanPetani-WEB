@@ -89,4 +89,24 @@ export default {
         Authorization: `Bearer ${token}`,
       },
     }),
+
+  // ----- Template Tasks -----
+
+  getAllTemplates: (token?: string) =>
+    instance({
+      method: 'GET',
+      url: `templates/`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  getTemplatesById: (token?: string, code?: string) =>
+    instance({
+      method: 'GET',
+      url: `templates/${code}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
 };
