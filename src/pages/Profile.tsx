@@ -89,13 +89,14 @@ const Profile = () => {
         //   await checkPP(data.profile_picture);
       })
       .catch((error) => {
-        const { data } = error.response;
-        if (!ckToken) {
+        const { data, status } = error.response;
+        if (status === 401) {
           MySwal.fire({
             title: 'Sesi Telah Berakhir',
             text: 'Harap login ulang untuk melanjutkan.',
             showCancelButton: false,
           }).then(() => {
+            removeCookie('token');
             navigate('/login');
           });
         } else {

@@ -71,6 +71,16 @@ export default {
       },
     }),
 
+  putProductText: (token?: string, code?: FormData, productId?: string) =>
+    instance({
+      method: 'PUT',
+      url: `products/${productId}`,
+      data: code,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
   getProductAll: (token?: string, role?: string) =>
     instance({
       method: 'GET',
@@ -84,6 +94,24 @@ export default {
     instance({
       method: 'GET',
       url: `products/?owner=${role}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  getProductId: (token?: string, id?: string) =>
+    instance({
+      method: 'GET',
+      url: `products/${id}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  delProductId: (token?: string, id?: string) =>
+    instance({
+      method: 'DELETE',
+      url: `products/${id}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },

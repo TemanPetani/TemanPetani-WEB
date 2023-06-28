@@ -31,7 +31,7 @@ function TasksJadwalTanam() {
   const MySwal = withReactContent(swal);
   const MyToast = withReactContent(toast);
 
-  const [cookie] = useCookies(['role', 'token']);
+  const [cookie, , removeCookie] = useCookies(['role', 'token']);
   const ckToken = cookie.token;
 
   const handleModalEdit = (name?: string, startDays?: number, id?: number) => {
@@ -50,13 +50,14 @@ function TasksJadwalTanam() {
         await setDataTasks(data);
       })
       .catch((error) => {
-        const { data } = error.response;
-        if (!ckToken) {
+        const { data, status } = error.response;
+        if (status === 401) {
           MySwal.fire({
             title: 'Sesi Telah Berakhir',
             text: 'Harap login ulang untuk melanjutkan.',
             showCancelButton: false,
           }).then(() => {
+            removeCookie('token');
             navigate('/login');
           });
         } else {

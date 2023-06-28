@@ -16,7 +16,7 @@ function Homepage() {
   const [dataHomepage, setDataHomepage] = useState<getAllProduct[]>([]);
 
   const [load, setLoad] = useState<boolean>(false);
-  const [cookie] = useCookies(['role', 'token']);
+  const [cookie, , removeCookie] = useCookies(['role', 'token']);
 
   const ckToken = cookie.token;
   const ckRole = cookie.role;
@@ -32,13 +32,14 @@ function Homepage() {
         await setDataHomepage(data.products);
       })
       .catch((error) => {
-        const { data } = error.response;
-        if (!ckToken) {
+        const { data, status } = error.response;
+        if (status === 401) {
           MySwal.fire({
             title: 'Sesi Telah Berakhir',
             text: 'Harap login ulang untuk melanjutkan.',
             showCancelButton: false,
           }).then(() => {
+            removeCookie('token');
             navigate('/login');
           });
         } else {
@@ -56,7 +57,7 @@ function Homepage() {
   useEffect(() => {
     fetchProduct();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ckToken]);
+  }, []);
 
   return (
     <Layout chose="layout">
