@@ -107,13 +107,13 @@ const Navbar: FC<Props> = ({ styled }) => {
               >
                 {' '}
                 <li>
-                  <Link to="/nego">Daftar Nego</Link>
+                  <Link to="/negotiation">Daftar Nego</Link>
                 </li>
                 <li>
-                  <Link to="/terjual">Daftar Terjual</Link>
+                  <Link to="/solds">Daftar Terjual</Link>
                 </li>
                 <li>
-                  <Link to="/transaksi">Daftar Transaksi</Link>
+                  <Link to="/transaction">Daftar Transaksi</Link>
                 </li>
                 <div className="divider my-0.5"></div>
                 <li>
@@ -122,17 +122,17 @@ const Navbar: FC<Props> = ({ styled }) => {
                 {ckRole === 'admin' ? (
                   <>
                     <li>
-                      <Link to="/jadwaltanam">Jadwal Tanam</Link>
+                      <Link to="/plant_templates">Jadwal Tanam</Link>
                     </li>
                     <li>
-                      <Link to="/jadwalpetani">Jadwal Petani</Link>
+                      <Link to="/schedules">Jadwal Petani</Link>
                     </li>
                     <div className="divider my-0.5"></div>
                   </>
                 ) : (
                   <>
                     <li>
-                      <Link to="/tanaman_saya">Tanaman Saya</Link>
+                      <Link to="/myplant">Tanaman Saya</Link>
                     </li>
                     <div className="divider my-0.5"></div>
                     <li>

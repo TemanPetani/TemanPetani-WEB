@@ -27,8 +27,9 @@ const JadwalPetani = lazy(() => import('../pages/JadwalPetani'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
 const Router = () => {
-  const [cookie] = useCookies(['token']);
+  const [cookie] = useCookies(['token', 'role']);
   const ckToken = cookie.token;
+  const ckRole = cookie.role;
 
   return (
     <BrowserRouter>
@@ -47,14 +48,9 @@ const Router = () => {
             path="/register"
             element={ckToken ? <Navigate to="/" /> : <Register />}
           />
-
           <Route
             path="/"
             element={ckToken ? <Homepage /> : <Navigate to="/landing" />}
-          />
-          <Route
-            path="/profile"
-            element={<Profile />}
           />
           <Route
             path="/myproduct"
@@ -73,41 +69,52 @@ const Router = () => {
             element={<CaraBayar />}
           />
           <Route
-            path="/nego"
+            path="/negotiation"
             element={<DaftarNego />}
           />
           <Route
-            path="/terjual"
+            path="/solds"
             element={<DaftarTerjual />}
           />
           <Route
-            path="/transaksi"
+            path="/transaction"
             element={<DaftarTransaksi />}
           />
-          <Route
-            path="/tanam"
-            element={<Tanam />}
-          />
-          <Route
-            path="/tanaman_saya"
-            element={<LogsTanaman />}
-          />
-          <Route
-            path="/tanaman_saya/:logs"
-            element={<DetailLogTanaman />}
-          />
-          <Route
-            path="/jadwaltanam"
-            element={<JadwalTanam />}
-          />
-          <Route
-            path="/jadwaltanam/:schedule_id"
-            element={<TasksJadwalTanam />}
-          />
-          <Route
-            path="/jadwalpetani"
-            element={<JadwalPetani />}
-          />
+          {ckRole === 'admin' ? (
+            <>
+              <Route
+                path="/plant_templates"
+                element={<JadwalTanam />}
+              />
+              <Route
+                path="/plant_templates/:templateId"
+                element={<TasksJadwalTanam />}
+              />
+              <Route
+                path="/schedules"
+                element={<JadwalPetani />}
+              />
+            </>
+          ) : (
+            <>
+              <Route
+                path="/profile"
+                element={<Profile />}
+              />
+              <Route
+                path="/plant"
+                element={<Tanam />}
+              />
+              <Route
+                path="/myplant"
+                element={<LogsTanaman />}
+              />
+              <Route
+                path="/myplant/:logs"
+                element={<DetailLogTanaman />}
+              />
+            </>
+          )}
 
           <Route
             path="*"

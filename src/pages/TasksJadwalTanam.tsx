@@ -25,7 +25,7 @@ function TasksJadwalTanam() {
   const [loadPost, setLoadPost] = useState<boolean>(false);
   const [idEdit, setIdEdit] = useState<string>();
 
-  const { schedule_id } = useParams();
+  const { templateId } = useParams();
   const navigate = useNavigate();
 
   const MySwal = withReactContent(swal);
@@ -43,7 +43,7 @@ function TasksJadwalTanam() {
   const fetchTasksJadwalTanam = async () => {
     setLoad(true);
     await api
-      .getTemplatesById(ckToken, schedule_id)
+      .getTemplatesById(ckToken, templateId)
       .then(async (response) => {
         const { data } = response.data;
 
@@ -74,7 +74,7 @@ function TasksJadwalTanam() {
   const postTasks = async (datad?: object) => {
     setLoadPost(true);
     await api
-      .postTasks(ckToken, schedule_id, datad)
+      .postTasks(ckToken, templateId, datad)
       .then((response) => {
         const { message } = response.data;
         MySwal.fire({

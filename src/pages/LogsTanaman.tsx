@@ -35,7 +35,7 @@ function LogsTanaman() {
                       title={data.name}
                       text={data.text}
                       label="detail"
-                      onClick={() => navigate(`/tanaman_saya/${idx}`)}
+                      onClick={() => navigate(`/myplant/${idx}`)}
                     />
                   );
                 })}
