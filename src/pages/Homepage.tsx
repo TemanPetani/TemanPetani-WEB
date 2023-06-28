@@ -90,7 +90,7 @@ function Homepage() {
                         label="detail"
                         price={data.price?.toString()}
                         stok={data.stock?.toString()}
-                        onClick={() => navigate(`/detail/produk/${idx}`)}
+                        onClick={() => navigate(`/detail/product/${idx}`)}
                       />
                     );
                   })}
@@ -128,7 +128,7 @@ function Homepage() {
                           label="detail"
                           price={data.price?.toString()}
                           stok={data.stock?.toString()}
-                          onClick={() => navigate(`/detail/alat/${idx}`)}
+                          onClick={() => navigate(`/detail/equip/${idx}`)}
                         />
                       );
                     })}

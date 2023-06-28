@@ -332,7 +332,7 @@ function JadwalTanam() {
                             <td>
                               <button
                                 onClick={() =>
-                                  navigate(`/jadwaltanam/${prop.id}`)
+                                  navigate(`/plant_templates/${prop.id}`)
                                 }
                                 className="btn p-0 min-h-0 h-0 p text-base"
                               >
