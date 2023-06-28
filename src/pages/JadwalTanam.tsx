@@ -24,7 +24,7 @@ function JadwalTanam() {
   const [idEdit, setIdEdit] = useState<string>();
   const [loadPost, setLoadPost] = useState<boolean>(false);
 
-  const [cookie] = useCookies(['role', 'token']);
+  const [cookie, , removeCookie] = useCookies(['role', 'token']);
   const ckToken = cookie.token;
 
   const navigate = useNavigate();
@@ -64,13 +64,14 @@ function JadwalTanam() {
         await setDataTemplates(data);
       })
       .catch((error) => {
-        const { data } = error.response;
-        if (!ckToken) {
+        const { data, status } = error.response;
+        if (status === 401) {
           MySwal.fire({
             title: 'Sesi Telah Berakhir',
             text: 'Harap login ulang untuk melanjutkan.',
             showCancelButton: false,
           }).then(() => {
+            removeCookie('token');
             navigate('/login');
           });
         } else {
