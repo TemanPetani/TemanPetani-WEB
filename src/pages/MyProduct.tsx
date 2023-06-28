@@ -27,6 +27,7 @@ function MyProduct() {
   const [cookie, , removeCookie] = useCookies(['token', 'role', 'id']);
   const ckToken = cookie.token;
   const ckRole = cookie.role;
+  const ckId = cookie.id;
 
   const navigate = useNavigate();
   const [load, setLoad] = useState<boolean>(false);
@@ -53,34 +54,69 @@ function MyProduct() {
   });
 
   const fetchProduct = async () => {
-    setLoad(true);
-    await api
-      .getMyProduct(ckToken, ckRole)
-      .then(async (response) => {
-        const { data } = response.data;
-        await setDataMyPeroducts(data.products);
-      })
-      .catch((error) => {
-        const { data, status } = error.response;
-        if (status === 401) {
-          MySwal.fire({
-            title: 'Sesi Telah Berakhir',
-            text: 'Harap login ulang untuk melanjutkan.',
-            showCancelButton: false,
-          }).then(() => {
-            removeCookie('token');
-            navigate('/login');
-          });
-        } else {
-          MySwal.fire({
-            icon: 'error',
-            title: 'Failed',
-            text: `error :  ${data.message}`,
-            showCancelButton: false,
-          });
-        }
-      })
-      .finally(() => setLoad(false));
+    if (ckRole === 'admin') {
+      setLoad(true);
+      await api
+        .getMyProduct(ckToken, ckRole)
+        .then(async (response) => {
+          const { data } = response.data;
+          await setDataMyPeroducts(data.products);
+        })
+        .catch((error) => {
+          const { data, status } = error.response;
+          if (status === 401) {
+            MySwal.fire({
+              title: 'Sesi Telah Berakhir',
+              text: 'Harap login ulang untuk melanjutkan.',
+              showCancelButton: false,
+            }).then(() => {
+              removeCookie('token');
+              navigate('/login');
+            });
+          } else {
+            MySwal.fire({
+              icon: 'error',
+              title: 'Failed',
+              text: `error :  ${data.message}`,
+              showCancelButton: false,
+            });
+          }
+        })
+        .finally(() => setLoad(false));
+    } else {
+      setLoad(true);
+      await api
+        .getProductAll(ckToken, 'admin')
+        .then(async (response) => {
+          const { data } = response.data;
+
+          const filteredProducts: getAllProduct[] = data.products.filter(
+            (product: getAllProduct) => product.owner?.id === ckId
+          );
+          await setDataMyPeroducts(filteredProducts);
+        })
+        .catch((error) => {
+          const { data, status } = error.response;
+          if (status === 401) {
+            MySwal.fire({
+              title: 'Sesi Telah Berakhir',
+              text: 'Harap login ulang untuk melanjutkan.',
+              showCancelButton: false,
+            }).then(() => {
+              removeCookie('token');
+              navigate('/login');
+            });
+          } else {
+            MySwal.fire({
+              icon: 'error',
+              title: 'Failed',
+              text: `error :  ${data.message}`,
+              showCancelButton: false,
+            });
+          }
+        })
+        .finally(() => setLoad(false));
+    }
   };
 
   const postProduct = async (datad?: FormData) => {
