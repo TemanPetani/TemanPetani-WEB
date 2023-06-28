@@ -24,7 +24,7 @@ export interface getAllProduct {
   stock?: number;
   description?: string;
   imageUrl?: string;
-  owner?: UserProduct[];
+  owner?: UserProduct;
 }
 
 export interface UserProduct {

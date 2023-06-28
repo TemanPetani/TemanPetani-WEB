@@ -33,12 +33,22 @@ function Homepage() {
       })
       .catch((error) => {
         const { data } = error.response;
-        MySwal.fire({
-          icon: 'error',
-          title: 'Failed',
-          text: `error :  ${data.message}`,
-          showCancelButton: false,
-        });
+        if (!ckToken) {
+          MySwal.fire({
+            title: 'Sesi Telah Berakhir',
+            text: 'Harap login ulang untuk melanjutkan.',
+            showCancelButton: false,
+          }).then(() => {
+            navigate('/login');
+          });
+        } else {
+          MySwal.fire({
+            icon: 'error',
+            title: 'Failed',
+            text: `error :  ${data.message}`,
+            showCancelButton: false,
+          });
+        }
       })
       .finally(() => setLoad(false));
   };
@@ -46,7 +56,7 @@ function Homepage() {
   useEffect(() => {
     fetchProduct();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [ckToken]);
 
   return (
     <Layout chose="layout">

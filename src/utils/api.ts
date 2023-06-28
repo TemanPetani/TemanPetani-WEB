@@ -80,6 +80,15 @@ export default {
       },
     }),
 
+  getMyProduct: (token?: string, role?: string) =>
+    instance({
+      method: 'GET',
+      url: `products/?owner=${role}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
   // ----- Template -----
 
   getAllTemplates: (token?: string) =>

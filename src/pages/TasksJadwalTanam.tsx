@@ -6,7 +6,7 @@ import { Input } from '../components/Input';
 import { useEffect, useState } from 'react';
 import api from '../utils/api';
 import { GetTasks } from '../utils/type';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import swal from '../utils/swal';
 import toast from '../utils/toast';
@@ -26,6 +26,7 @@ function TasksJadwalTanam() {
   const [idEdit, setIdEdit] = useState<string>();
 
   const { schedule_id } = useParams();
+  const navigate = useNavigate();
 
   const MySwal = withReactContent(swal);
   const MyToast = withReactContent(toast);
@@ -50,12 +51,22 @@ function TasksJadwalTanam() {
       })
       .catch((error) => {
         const { data } = error.response;
-        MySwal.fire({
-          icon: 'error',
-          title: 'Failed',
-          text: `error :  ${data.message}`,
-          showCancelButton: false,
-        });
+        if (!ckToken) {
+          MySwal.fire({
+            title: 'Sesi Telah Berakhir',
+            text: 'Harap login ulang untuk melanjutkan.',
+            showCancelButton: false,
+          }).then(() => {
+            navigate('/login');
+          });
+        } else {
+          MySwal.fire({
+            icon: 'error',
+            title: 'Failed',
+            text: `error :  ${data.message}`,
+            showCancelButton: false,
+          });
+        }
       })
       .finally(() => setLoad(false));
   };

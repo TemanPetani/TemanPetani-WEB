@@ -50,9 +50,18 @@ const Login = () => {
           showCancelButton: false,
         }).then((result) => {
           if (result.isConfirmed) {
-            setCookie('id', data.id, { path: '/' });
-            setCookie('role', data.role, { path: '/' });
-            setCookie('token', data.token, { path: '/' });
+            setCookie('id', data.id, {
+              path: '/',
+              expires: new Date(Date.now() + 3600000),
+            });
+            setCookie('role', data.role, {
+              path: '/',
+              expires: new Date(Date.now() + 3600000),
+            });
+            setCookie('token', data.token, {
+              path: '/',
+              expires: new Date(Date.now() + 3600000),
+            });
             navigate(`/`);
           }
         });
