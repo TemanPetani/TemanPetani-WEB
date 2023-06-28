@@ -26,7 +26,6 @@ function MyProduct() {
   const [cookie] = useCookies(['token', 'role', 'id']);
   const ckToken = cookie.token;
   const ckRole = cookie.role;
-  const ckId = cookie.id;
 
   const navigate = useNavigate();
   const [load, setLoad] = useState<boolean>(false);
@@ -57,25 +56,31 @@ function MyProduct() {
       .getMyProduct(ckToken, ckRole)
       .then(async (response) => {
         const { data } = response.data;
-        const filteredProducts: getAllProduct[] = data.products.filter(
-          (product: getAllProduct) => product.owner?.id === ckId
-        );
-
-        await setDataMyPeroducts(filteredProducts);
+        await setDataMyPeroducts(data.products);
       })
       .catch((error) => {
         const { data } = error.response;
-        MySwal.fire({
-          icon: 'error',
-          title: 'Failed',
-          text: `error :  ${data.message}`,
-          showCancelButton: false,
-        });
+        if (!ckToken) {
+          MySwal.fire({
+            title: 'Sesi Telah Berakhir',
+            text: 'Harap login ulang untuk melanjutkan.',
+            showCancelButton: false,
+          }).then(() => {
+            navigate('/login');
+          });
+        } else {
+          MySwal.fire({
+            icon: 'error',
+            title: 'Failed',
+            text: `error :  ${data.message}`,
+            showCancelButton: false,
+          });
+        }
       })
       .finally(() => setLoad(false));
   };
 
-  const postProduct = async (datad?: any) => {
+  const postProduct = async (datad?: FormData) => {
     setLoad(true);
     await api
       .postProduct(ckToken, datad)

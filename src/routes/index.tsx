@@ -36,10 +36,6 @@ const Router = () => {
       <Suspense fallback={<LoadingFull />}>
         <Routes>
           <Route
-            path="/"
-            element={ckToken ? <Homepage /> : <Navigate to="/landing" />}
-          />
-          <Route
             path="/landing"
             element={ckToken ? <Navigate to="/" /> : <Landing />}
           />
@@ -50,6 +46,11 @@ const Router = () => {
           <Route
             path="/register"
             element={ckToken ? <Navigate to="/" /> : <Register />}
+          />
+
+          <Route
+            path="/"
+            element={ckToken ? <Homepage /> : <Navigate to="/landing" />}
           />
           <Route
             path="/profile"
