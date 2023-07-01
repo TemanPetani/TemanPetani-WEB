@@ -196,4 +196,71 @@ export default {
         Authorization: `Bearer ${token}`,
       },
     }),
+
+  // ----- plant -----
+
+  postPlant: (token?: string, data?: object) =>
+    instance({
+      method: 'POST',
+      url: `plants`,
+      data: data,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  getPlant: (token?: string) =>
+    instance({
+      method: 'GET',
+      url: `plants`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  getUserPlant: (token?: string) =>
+    instance({
+      method: 'GET',
+      url: `users/plants`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  getPlantId: (token?: string, plantId?: string) =>
+    instance({
+      method: 'GET',
+      url: `plants/${plantId}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  getPlantNotify: (token?: string) =>
+    instance({
+      method: 'GET',
+      url: `plants/notifications`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  putPlant: (token?: string, activId?: string, data?: object) =>
+    instance({
+      method: 'PUT',
+      url: `plants/activities/${activId}`,
+      data: data,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  delPlant: (token?: string, activId?: string) =>
+    instance({
+      method: 'DELETE',
+      url: `plants/${activId}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
 };

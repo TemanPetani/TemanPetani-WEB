@@ -131,6 +131,10 @@ const Navbar: FC<Props> = ({ styled }) => {
                   </>
                 ) : (
                   <>
+                    <div className="divider my-0.5"></div>
+                    <li>
+                      <Link to="/plant">Tanam sekarang</Link>
+                    </li>
                     <li>
                       <Link to="/myplant">Tanaman Saya</Link>
                     </li>

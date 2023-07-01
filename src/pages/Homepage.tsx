@@ -167,7 +167,7 @@ function Homepage() {
               </p>
               <Link
                 id="button-to-tanam"
-                to="/tanam"
+                to="/plant"
                 className="btn btn-primary text-base text-primary-content w-max"
               >
                 Tanam Sekarang <FaArrowRight />

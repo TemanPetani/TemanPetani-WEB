@@ -40,11 +40,31 @@ export interface GetTemplates {
 }
 
 export interface GetTasks extends GetTemplates {
-  tasks: GetTaskDetail[];
+  activity?: GetTaskDetail[];
 }
 
 export interface GetTaskDetail {
   name?: string;
   id?: number;
   startDays?: number;
+}
+
+export interface Getplants {
+  farmerName?: string;
+  scheduleName?: string;
+  id?: number;
+}
+
+export interface GetPlantsDetail {
+  id?: number;
+  name?: string;
+  startDate?: string;
+  activities?: GetPlantsActivity[];
+}
+
+export interface GetPlantsActivity {
+  name?: string;
+  id?: number;
+  startDate?: string;
+  completedDate?: string;
 }
