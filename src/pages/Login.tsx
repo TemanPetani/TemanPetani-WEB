@@ -87,9 +87,9 @@ const Login = () => {
         style={{ backgroundImage: `url(${bg})` }}
         className="w-4/5 h-5/6 bg-[-6rem] rounded-3xl flex p-5 md:p-10 lg:p-15 items-center bg-cover md:bg-center"
       >
-        <div className="md:w-5/12 w-0 h-full"></div>
+        <div className="sm:w-5/12 md:w-6/12 xl:w-8/12 w-0 h-full"></div>
         <form
-          className="md:w-7/12 w-full h-max flex flex-col justify-center p-5 md:p-7 gap-4 bg-black/40 md:bg-black/20 backdrop-blur-sm rounded-3xl"
+          className="sm:w-7/12 md:w-6/12 w-full xl:w-4/12 h-max flex flex-col justify-center p-5 md:p-7 gap-4 bg-black/40 md:bg-black/20 backdrop-blur-sm rounded-3xl"
           onSubmit={handleSubmit}
         >
           <p className="text-4xl font-semibold text-base-100">Log in.</p>

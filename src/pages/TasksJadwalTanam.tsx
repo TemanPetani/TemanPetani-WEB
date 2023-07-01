@@ -363,40 +363,47 @@ function TasksJadwalTanam() {
                       </tr>
                     </thead>
                     <tbody>
-                      {dataTasks?.tasks.map((prop, idx) => {
-                        return (
-                          <tr key={idx}>
-                            <th>{idx + 1}</th>
-                            <td>{prop.name}</td>
-                            <td>+ {prop.startDays} hari</td>
-                            <td>
-                              <label
-                                htmlFor="modal-edit-tasks"
-                                onClick={() =>
-                                  handleModalEdit(
-                                    prop.name,
-                                    prop.startDays,
-                                    prop.id
-                                  )
-                                }
-                                className="btn p-0 min-h-0 h-0 p text-base"
-                              >
-                                <FaPen />
-                              </label>
-                            </td>
-                            <td>
-                              <button
-                                onClick={() =>
-                                  handleDelTasks(prop.name, prop.id)
-                                }
-                                className="btn p-0 min-h-0 h-0 p text-base"
-                              >
-                                <FaTrashAlt />
-                              </button>
-                            </td>
-                          </tr>
-                        );
-                      })}
+                      {dataTasks?.activity ? (
+                        dataTasks?.activity?.map((prop, idx) => {
+                          return (
+                            <tr key={idx}>
+                              <th>{idx + 1}</th>
+                              <td>{prop?.name}</td>
+                              <td>+ {prop?.startDays} hari</td>
+                              <td>
+                                <label
+                                  htmlFor="modal-edit-tasks"
+                                  onClick={() =>
+                                    handleModalEdit(
+                                      prop.name,
+                                      prop.startDays,
+                                      prop.id
+                                    )
+                                  }
+                                  className="btn p-0 min-h-0 h-0 p text-base"
+                                >
+                                  <FaPen />
+                                </label>
+                              </td>
+                              <td>
+                                <button
+                                  onClick={() =>
+                                    handleDelTasks(prop.name, prop.id)
+                                  }
+                                  className="btn p-0 min-h-0 h-0 p text-base"
+                                >
+                                  <FaTrashAlt />
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        })
+                      ) : (
+                        <tr>
+                          <th></th>
+                          <td>Belum Ada data silahkan input</td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </div>
