@@ -86,14 +86,10 @@ function MyProduct() {
     } else {
       setLoad(true);
       await api
-        .getProductAll(ckToken, 'admin')
+        .getUsersProducts(ckToken)
         .then(async (response) => {
           const { data } = response.data;
-
-          const filteredProducts: getAllProduct[] = data.products.filter(
-            (product: getAllProduct) => product.owner?.id === ckId
-          );
-          await setDataMyPeroducts(filteredProducts);
+          await setDataMyPeroducts(data.products);
         })
         .catch((error) => {
           const { data, status } = error.response;

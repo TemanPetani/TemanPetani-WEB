@@ -16,10 +16,10 @@ const schemaTanam = Yup.object().shape({
   name: Yup.string().required('Required'),
   templateId: Yup.string().required('Required'),
   startDate: Yup.date()
-    .min(
-      new Date(new Date().setDate(new Date().getDate() - 1)),
-      'Start date cannot be before today'
-    )
+    // .min(
+    //   new Date(new Date().setDate(new Date().getDate() - 1)),
+    //   'Start date cannot be before today'
+    // )
     .required('Start date is required'),
 });
 
