@@ -7,6 +7,7 @@ import withReactContent from 'sweetalert2-react-content';
 import swal from '../utils/swal';
 import api from '../utils/api';
 import LoadingFull from '../components/LoadingFull';
+import toast from '../utils/toast';
 
 const CardTanam = lazy(() => import('../components/CardTanam'));
 
@@ -18,6 +19,8 @@ function LogsTanaman() {
   const ckToken = cookie.token;
 
   const MySwal = withReactContent(swal);
+  const MyToast = withReactContent(toast);
+
   const navigate = useNavigate();
 
   const fetchMyPlant = async () => {
@@ -51,6 +54,40 @@ function LogsTanaman() {
       .finally(() => setLoad(false));
   };
 
+  const DelPlantActivity = async (id?: string) => {
+    await api
+      .delPlant(ckToken, id)
+      .then((response) => {
+        const { message } = response.data;
+        MyToast.fire({
+          icon: 'success',
+          title: message,
+        });
+        fetchMyPlant();
+      })
+      .catch((error) => {
+        MySwal.fire({
+          icon: 'error',
+          title: 'Failed',
+          text: `error :  ${error.message}`,
+          showCancelButton: false,
+        });
+      });
+  };
+
+  const handleDelPlantActivity = async (name?: string, id?: number) => {
+    MySwal.fire({
+      icon: 'question',
+      title: 'Hapus Jadwal',
+      text: `ingin menghapus ${name}`,
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        DelPlantActivity(id?.toString());
+      }
+    });
+  };
+
   useEffect(() => {
     fetchMyPlant();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -70,28 +107,37 @@ function LogsTanaman() {
               Tanamanku
             </p>
             <div className="w-full h-max">
-              <Suspense
-                fallback={
-                  <div className="w-full h-full flex flex-col justify-center items-center">
-                    <span className="loading loading-ball loading-lg"></span>
+              {dataUserPlants ? (
+                <Suspense
+                  fallback={
+                    <div className="w-full h-full flex flex-col justify-center items-center">
+                      <span className="loading loading-ball loading-lg"></span>
+                    </div>
+                  }
+                >
+                  <div className="w-full grid grid-cols-1 gap-10">
+                    {dataUserPlants?.map((prop, idx) => {
+                      return (
+                        <CardTanam
+                          type="tanamanku"
+                          key={idx}
+                          title={prop.name}
+                          text={prop.activities?.[0].name}
+                          label="detail"
+                          onClick={() => navigate(`/myplant/${prop.id}`)}
+                          onClickDel={() =>
+                            handleDelPlantActivity(prop.name, prop.id)
+                          }
+                        />
+                      );
+                    })}
                   </div>
-                }
-              >
-                <div className="w-full grid grid-cols-1 gap-10">
-                  {dataUserPlants?.map((prop, idx) => {
-                    return (
-                      <CardTanam
-                        type="tanamanku"
-                        key={idx}
-                        title={prop.name}
-                        text={prop.activities?.[0].name}
-                        label="detail"
-                        onClick={() => navigate(`/myplant/${prop.id}`)}
-                      />
-                    );
-                  })}
+                </Suspense>
+              ) : (
+                <div className="w-full h-full flex flex-col justify-center items-center">
+                  belum ada data
                 </div>
-              </Suspense>
+              )}
             </div>
           </div>
         </Layout>

@@ -11,6 +11,7 @@ interface CardTanamType {
   label?: string;
   disabled?: boolean | undefined;
   onClick?: React.MouseEventHandler;
+  onClickDel?: React.MouseEventHandler;
 }
 
 const CardTanam: FC<CardTanamType> = ({
@@ -23,6 +24,7 @@ const CardTanam: FC<CardTanamType> = ({
   disabled,
   label,
   onClick,
+  onClickDel,
 }) => {
   const dateType = (date: any) => {
     const dated: any = new Date(date);
@@ -46,12 +48,21 @@ const CardTanam: FC<CardTanamType> = ({
             <div className="divider my-0.5"></div>
 
             <p className="text-lg flex items-center gap-2">
-              <FaArrowRight />{' '}
+              Aktivitas Hari Ini <FaArrowRight />{' '}
               <span className="font-semibold">{text ? text : 'Kosong'}</span>
             </p>
           </div>
 
           <div className="self-center md:self-end mt-5 md:mt-0 flex gap-3">
+            {}
+            <button
+              id={`button-card-${title}`}
+              onClick={onClickDel}
+              disabled={disabled}
+              className="btn btn-error btn-outline text-neutral w-32"
+            >
+              Delete
+            </button>
             <button
               id={`button-card-${title}`}
               onClick={onClick}
