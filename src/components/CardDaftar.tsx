@@ -36,7 +36,7 @@ const CardDaftar: FC<CardDaftarType> = ({
 }) => {
   const dateType = (date: any) => {
     const dated: any = new Date(date);
-    const formattedDate = dated.toLocaleDateString('en-GB', {
+    const formattedDate = dated.toLocaleDateString('id-ID', {
       day: 'numeric',
       month: 'long',
       year: 'numeric',

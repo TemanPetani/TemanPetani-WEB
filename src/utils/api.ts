@@ -90,6 +90,15 @@ export default {
       },
     }),
 
+  getUsersProducts: (token?: string) =>
+    instance({
+      method: 'GET',
+      url: `users/products`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
   getMyProduct: (token?: string, role?: string) =>
     instance({
       method: 'GET',

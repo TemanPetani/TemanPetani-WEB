@@ -9,6 +9,8 @@ import swal from '../utils/swal';
 import withReactContent from 'sweetalert2-react-content';
 import { getAllProduct } from '../utils/type';
 import LoadingFull from '../components/LoadingFull';
+import notify from '../utils/notify';
+import Swal from 'sweetalert2';
 
 const CardHome = lazy(() => import('../components/CardHome'));
 
@@ -22,6 +24,7 @@ function Homepage() {
   const ckRole = cookie.role;
   const navigate = useNavigate();
   const MySwal = withReactContent(swal);
+  const MyNotify = withReactContent(notify);
 
   const fetchProduct = async () => {
     setLoad(true);
@@ -30,6 +33,9 @@ function Homepage() {
       .then(async (response) => {
         const { data } = response.data;
         await setDataHomepage(data.products);
+        if (ckRole === 'user') {
+          fetchNotify();
+        }
       })
       .catch((error) => {
         const { data, status } = error.response;
@@ -52,6 +58,57 @@ function Homepage() {
         }
       })
       .finally(() => setLoad(false));
+  };
+
+  const fetchNotify = async () => {
+    await api
+      .getPlantNotify(ckToken)
+      .then(async (response) => {
+        const { data } = response.data;
+        if (data !== null) {
+          MyNotify.fire({
+            icon: 'info',
+            html: (
+              <div className="flex items-center w-full justify-between">
+                <p className="text-lg tracking-wide">
+                  Pengingat: &nbsp;
+                  <span className="font-semibold uppercase">
+                    {data[0].name}
+                  </span>
+                </p>
+                <button
+                  onClick={() => {
+                    navigate(`/myplant`), Swal.close();
+                  }}
+                  className="btn btn-primary btn-circle"
+                >
+                  GO
+                </button>
+              </div>
+            ),
+          });
+        }
+      })
+      .catch((error) => {
+        const { data, status } = error.response;
+        if (status === 401) {
+          MySwal.fire({
+            title: 'Sesi Telah Berakhir',
+            text: 'Harap login ulang untuk melanjutkan.',
+            showCancelButton: false,
+          }).then(() => {
+            removeCookie('token');
+            navigate('/login');
+          });
+        } else {
+          MySwal.fire({
+            icon: 'error',
+            title: 'Failed',
+            text: `error :  ${data.message}`,
+            showCancelButton: false,
+          });
+        }
+      });
   };
 
   useEffect(() => {

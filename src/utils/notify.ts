@@ -4,7 +4,8 @@ export default Swal.mixin({
   toast: true,
   position: 'top',
   showConfirmButton: false,
-  timer: 6000,
+  width: 600,
+  timer: 8000,
   timerProgressBar: true,
   didOpen: (toast) => {
     toast.addEventListener('mouseenter', Swal.stopTimer);

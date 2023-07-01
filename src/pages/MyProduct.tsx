@@ -27,7 +27,6 @@ function MyProduct() {
   const [cookie, , removeCookie] = useCookies(['token', 'role', 'id']);
   const ckToken = cookie.token;
   const ckRole = cookie.role;
-  const ckId = cookie.id;
 
   const navigate = useNavigate();
   const [load, setLoad] = useState<boolean>(false);
@@ -86,14 +85,10 @@ function MyProduct() {
     } else {
       setLoad(true);
       await api
-        .getProductAll(ckToken, 'admin')
+        .getUsersProducts(ckToken)
         .then(async (response) => {
           const { data } = response.data;
-
-          const filteredProducts: getAllProduct[] = data.products.filter(
-            (product: getAllProduct) => product.owner?.id === ckId
-          );
-          await setDataMyPeroducts(filteredProducts);
+          await setDataMyPeroducts(data.products);
         })
         .catch((error) => {
           const { data, status } = error.response;
