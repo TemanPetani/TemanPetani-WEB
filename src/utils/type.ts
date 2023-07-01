@@ -68,3 +68,10 @@ export interface GetPlantsActivity {
   startDate?: string;
   completedDate?: string;
 }
+
+export interface GetMyPlant {
+  id?: number;
+  name?: string;
+  startDate?: string;
+  activities?: GetPlantsActivity;
+}

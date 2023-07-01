@@ -27,7 +27,6 @@ function MyProduct() {
   const [cookie, , removeCookie] = useCookies(['token', 'role', 'id']);
   const ckToken = cookie.token;
   const ckRole = cookie.role;
-  const ckId = cookie.id;
 
   const navigate = useNavigate();
   const [load, setLoad] = useState<boolean>(false);
