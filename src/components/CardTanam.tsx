@@ -7,6 +7,7 @@ interface CardTanamType {
   text?: string;
   title?: string;
   date?: string;
+  completedDate?: string;
   label?: string;
   disabled?: boolean | undefined;
   onClick?: React.MouseEventHandler;
@@ -18,6 +19,7 @@ const CardTanam: FC<CardTanamType> = ({
   text,
   title,
   date,
+  completedDate,
   disabled,
   label,
   onClick,
@@ -68,21 +70,37 @@ const CardTanam: FC<CardTanamType> = ({
               <span className="font-semibold">{title ? title : 'Kosong'}</span>
             </p>
             <div className="divider my-0.5"></div>
-            <p className="font-medium text-lg">
-              Tanggal Aktivitas:{' '}
-              <span className="font-semibold">{dateType(date)}</span>
-            </p>
+            <div className="flex gap-10">
+              <p className="font-medium text-lg">
+                Tanggal Aktivitas:{' '}
+                <span className="font-semibold">{dateType(date)}</span>
+              </p>
+              {completedDate === null ? (
+                <></>
+              ) : (
+                <p className="font-medium text-lg">
+                  Tanggal Selesai:{' '}
+                  <span className="font-semibold">
+                    {dateType(completedDate)}
+                  </span>
+                </p>
+              )}
+            </div>
           </div>
 
           <div className="self-center md:self-end mt-5 md:mt-0 flex gap-3">
-            <button
-              id={`button-card-${title}`}
-              onClick={onClick}
-              disabled={disabled}
-              className="btn btn-primary  w-32"
-            >
-              {label}
-            </button>
+            {completedDate === null ? (
+              <button
+                id={`button-card-${title}`}
+                onClick={onClick}
+                disabled={disabled}
+                className="btn btn-primary  w-32"
+              >
+                {label}
+              </button>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       )}
