@@ -119,7 +119,7 @@ function DetailBeli() {
                 <Select
                   id="bank"
                   name="bank"
-                  label="Bank"
+                  label="Pilih Bank"
                   value={formikConfirm.values.bank}
                   onChangeSelect={formikConfirm.handleChange}
                   onBlur={formikConfirm.handleBlur}
