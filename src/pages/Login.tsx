@@ -24,7 +24,7 @@ const Login = () => {
   const MySwal = withReactContent(swal);
   const navigate = useNavigate();
 
-  const [, setCookie] = useCookies(['id', 'role', 'token']);
+  const [, setCookie] = useCookies(['id', 'role', 'token', 'avatar']);
 
   const { values, errors, handleBlur, handleChange, touched, handleSubmit } =
     useFormik({
@@ -42,11 +42,15 @@ const Login = () => {
     setLoading(true);
     await api
       .postLogin(code)
-      .then((response) => {
+      .then(async (response) => {
         const { data, message } = response.data;
+        const avatar = await fetchProfile(data.token);
+
         MySwal.fire({
           text: message,
           icon: 'success',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
           showCancelButton: false,
         }).then((result) => {
           if (result.isConfirmed) {
@@ -62,6 +66,12 @@ const Login = () => {
               path: '/',
               expires: new Date(Date.now() + 3600000),
             });
+            if (avatar)
+              setCookie('avatar', avatar, {
+                path: '/',
+                expires: new Date(Date.now() + 3600000),
+              });
+
             navigate(`/`);
           }
         });
@@ -76,6 +86,28 @@ const Login = () => {
         });
       })
       .finally(() => setLoading(false));
+  };
+
+  const fetchProfile = async (token: string) => {
+    return await api
+      .getUserById(token)
+      .then((response) => {
+        const { data } = response.data;
+        if (data.avatar) {
+          return data.avatar;
+        } else {
+          return Promise.resolve(undefined);
+        }
+      })
+      .catch((error) => {
+        const { data } = error.response;
+        MySwal.fire({
+          icon: 'error',
+          title: 'Failed',
+          text: `error :  ${data.message}`,
+          showCancelButton: false,
+        });
+      });
   };
 
   return (

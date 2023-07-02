@@ -40,6 +40,15 @@ export default {
         Authorization: `Bearer ${token}`,
       },
     }),
+  putUserPicture: (token?: string, data?: FormData) =>
+    instance({
+      method: 'PUT',
+      url: `users/picture`,
+      data: data,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
   delUserById: (token?: string) =>
     instance({
       method: 'DELETE',
