@@ -24,7 +24,12 @@ const schemaAddProduct = Yup.object().shape({
 });
 
 function MyProduct() {
-  const [cookie, , removeCookie] = useCookies(['token', 'role', 'id']);
+  const [cookie, , removeCookie] = useCookies([
+    'token',
+    'role',
+    'id',
+    'avatar',
+  ]);
   const ckToken = cookie.token;
   const ckRole = cookie.role;
 
@@ -70,6 +75,7 @@ function MyProduct() {
               showCancelButton: false,
             }).then(() => {
               removeCookie('token');
+              removeCookie('avatar');
               navigate('/login');
             });
           } else {
@@ -99,6 +105,7 @@ function MyProduct() {
               showCancelButton: false,
             }).then(() => {
               removeCookie('token');
+              removeCookie('avatar');
               navigate('/login');
             });
           } else {

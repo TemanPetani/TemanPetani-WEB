@@ -35,7 +35,7 @@ function DetailJual() {
   const MySwal = withReactContent(swal);
   const MyToast = withReactContent(toast);
 
-  const [cookie, , removeCookie] = useCookies(['token', 'role']);
+  const [cookie, , removeCookie] = useCookies(['token', 'role', 'avatar']);
   const ckToken = cookie.token;
   const ckRole = cookie.role;
 
@@ -85,6 +85,7 @@ function DetailJual() {
             showCancelButton: false,
           }).then(() => {
             removeCookie('token');
+            removeCookie('avatar');
             navigate('/login');
           });
         } else {

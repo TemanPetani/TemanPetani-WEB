@@ -98,6 +98,7 @@ const Profile = () => {
             showCancelButton: false,
           }).then(() => {
             removeCookie('token');
+            removeCookie('avatar');
             navigate('/login');
           });
         } else {

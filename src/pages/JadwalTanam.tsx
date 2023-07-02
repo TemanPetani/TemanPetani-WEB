@@ -24,7 +24,7 @@ function JadwalTanam() {
   const [idEdit, setIdEdit] = useState<string>();
   const [loadPost, setLoadPost] = useState<boolean>(false);
 
-  const [cookie, , removeCookie] = useCookies(['role', 'token']);
+  const [cookie, , removeCookie] = useCookies(['role', 'token', 'avatar']);
   const ckToken = cookie.token;
 
   const navigate = useNavigate();
@@ -72,6 +72,7 @@ function JadwalTanam() {
             showCancelButton: false,
           }).then(() => {
             removeCookie('token');
+            removeCookie('avatar');
             navigate('/login');
           });
         } else {

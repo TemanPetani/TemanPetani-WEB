@@ -31,7 +31,7 @@ function DetailBeli() {
   const navigate = useNavigate();
 
   const MySwal = withReactContent(swal);
-  const [cookie, , removeCookie] = useCookies(['token', 'role']);
+  const [cookie, , removeCookie] = useCookies(['token', 'role', 'avatar']);
   const ckToken = cookie.token;
 
   const formikConfirm = useFormik({
@@ -74,6 +74,7 @@ function DetailBeli() {
             showCancelButton: false,
           }).then(() => {
             removeCookie('token');
+            removeCookie('avatar');
             navigate('/login');
           });
         } else {
