@@ -41,8 +41,8 @@ function DetailBeli() {
       quantity: '',
     },
     validationSchema: schemaConfirm,
-    onSubmit: async (values) => {
-      console.log(values);
+    onSubmit: async () => {
+      // console.log(values);
     },
   });
   const formikTawar = useFormik({
@@ -51,8 +51,8 @@ function DetailBeli() {
       quantity: '',
     },
     validationSchema: schemaTawar,
-    onSubmit: async (values) => {
-      console.log(values);
+    onSubmit: async () => {
+      // console.log(values);
     },
   });
 

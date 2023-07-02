@@ -149,7 +149,7 @@ function Tanam() {
                   />
                 </div>
                 <div className="flex flex-col w-full">
-                  <p className=" self-start">templateId Tanaman:</p>{' '}
+                  <p className=" self-start">Jenis Tanaman:</p>{' '}
                   <Select
                     id="templateId"
                     name="templateId"

@@ -322,7 +322,7 @@ function MyProduct() {
           </Modals>
           <Layout
             chose="section"
-            addClass="w-full min-h-screen -mt-[67px] xl:-mt-[64px]  px-16 py-8 md:py-16 flex  items-center "
+            addClass="w-full min-h-screen -mt-[67px] xl:-mt-[64px] px-16 py-8 md:py-16 flex items-start "
           >
             <div className="w-full h-max flex flex-col justify-center items-center pt-8">
               <div className="flex w-full justify-between">
@@ -337,30 +337,36 @@ function MyProduct() {
                 </label>
               </div>
               <div className="w-full h-full">
-                <Suspense
-                  fallback={
-                    <div className="w-full h-full flex flex-col justify-center items-center">
-                      <span className="loading loading-spinner loading-lg"></span>
+                {dataMyPeroducts ? (
+                  <Suspense
+                    fallback={
+                      <div className="w-full h-full flex flex-col justify-center items-center">
+                        <span className="loading loading-spinner loading-lg"></span>
+                      </div>
+                    }
+                  >
+                    <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                      {dataMyPeroducts?.map((data, idx) => {
+                        return (
+                          <CardHome
+                            key={idx}
+                            id={data.id}
+                            image={data.imageUrl}
+                            text={data.name}
+                            label="edit"
+                            price={data.price?.toString()}
+                            stok={data.stock?.toString()}
+                            onClick={() => navigate(`/edit/${data.id}`)}
+                          />
+                        );
+                      })}
                     </div>
-                  }
-                >
-                  <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    {dataMyPeroducts?.map((data, idx) => {
-                      return (
-                        <CardHome
-                          key={idx}
-                          id={data.id}
-                          image={data.imageUrl}
-                          text={data.name}
-                          label="edit"
-                          price={data.price?.toString()}
-                          stok={data.stock?.toString()}
-                          onClick={() => navigate(`/edit/${data.id}`)}
-                        />
-                      );
-                    })}
+                  </Suspense>
+                ) : (
+                  <div className="w-full h-full flex flex-col justify-center items-center bg-">
+                    belum ada data, silahkan input
                   </div>
-                </Suspense>
+                )}
               </div>
             </div>
           </Layout>
