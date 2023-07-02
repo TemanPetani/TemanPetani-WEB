@@ -15,7 +15,7 @@ function DetailLogTanaman() {
   const [dataPlantsDetail, setDataPlantsDetail] = useState<GetPlantsDetail>();
   const [load, setLoad] = useState<boolean>(false);
 
-  const [cookie, , removeCookie] = useCookies(['role', 'token']);
+  const [cookie, , removeCookie] = useCookies(['role', 'token', 'avatar']);
   const ckToken = cookie.token;
   const { logs } = useParams();
 
@@ -51,6 +51,7 @@ function DetailLogTanaman() {
             showCancelButton: false,
           }).then(() => {
             removeCookie('token');
+            removeCookie('avatar');
             navigate('/login');
           });
         } else {

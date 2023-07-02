@@ -31,7 +31,7 @@ function TasksJadwalTanam() {
   const MySwal = withReactContent(swal);
   const MyToast = withReactContent(toast);
 
-  const [cookie, , removeCookie] = useCookies(['role', 'token']);
+  const [cookie, , removeCookie] = useCookies(['role', 'token', 'avatar']);
   const ckToken = cookie.token;
 
   const handleModalEdit = (name?: string, startDays?: number, id?: number) => {
@@ -58,6 +58,7 @@ function TasksJadwalTanam() {
             showCancelButton: false,
           }).then(() => {
             removeCookie('token');
+            removeCookie('avatar');
             navigate('/login');
           });
         } else {

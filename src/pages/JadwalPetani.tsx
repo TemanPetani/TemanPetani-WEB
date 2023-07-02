@@ -17,7 +17,7 @@ function JadwalPetani() {
   const [load, setLoad] = useState<boolean>(false);
   const [loadModal, setLoadModal] = useState<boolean>(false);
 
-  const [cookie, , removeCookie] = useCookies(['role', 'token']);
+  const [cookie, , removeCookie] = useCookies(['role', 'token', 'avatar']);
   const ckToken = cookie.token;
 
   const MySwal = withReactContent(swal);
@@ -50,6 +50,7 @@ function JadwalPetani() {
             showCancelButton: false,
           }).then(() => {
             removeCookie('token');
+            removeCookie('avatar');
             navigate('/login');
           });
         } else {
@@ -81,6 +82,7 @@ function JadwalPetani() {
             showCancelButton: false,
           }).then(() => {
             removeCookie('token');
+            removeCookie('avatar');
             navigate('/login');
           });
         } else {
