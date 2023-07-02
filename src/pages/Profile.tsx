@@ -45,7 +45,7 @@ const schemaRekening = Yup.object().shape({
   accountNumber: Yup.string().required('Required'),
 });
 const schemaAvatar = Yup.object().shape({
-  avatar: Yup.mixed().required('Required'),
+  picture: Yup.mixed().required('Required'),
 });
 const schemaPassword = Yup.object().shape({
   old_password: Yup.string().required('Required'),
@@ -70,7 +70,7 @@ const Profile = () => {
 
   const navigate = useNavigate();
 
-  const [cookie, , removeCookie] = useCookies([
+  const [cookie, setCookie, removeCookie] = useCookies([
     'id',
     'token',
     'avatar',
@@ -78,15 +78,16 @@ const Profile = () => {
   ]);
   const ckToken = cookie.token;
   const ckRole = cookie.role;
+  const ckAva = cookie.avatar;
 
   const fetchProfile = async () => {
     setLoad(true);
     await api
       .getUserById(ckToken)
-      .then((response) => {
+      .then(async (response) => {
         const { data } = response.data;
         setDataProfile(data);
-        //   await checkPP(data.profile_picture);
+        await checkAva(data.avatar);
       })
       .catch((error) => {
         const { data, status } = error.response;
@@ -115,6 +116,32 @@ const Profile = () => {
     setLoad(true);
     await api
       .putUserById(ckToken, datad)
+      .then((response) => {
+        const { message } = response.data;
+        fetchProfile();
+        resetAllFormik();
+
+        MyToast.fire({
+          icon: 'success',
+          title: message,
+        });
+      })
+      .catch((error) => {
+        const { data } = error.response;
+        MySwal.fire({
+          icon: 'error',
+          title: 'Failed',
+          text: `error :  ${data.message}`,
+          showCancelButton: false,
+        });
+      })
+      .finally(() => setLoad(false));
+  };
+
+  const putUsersPicture = async (datad?: any) => {
+    setLoad(true);
+    await api
+      .putUserPicture(ckToken, datad)
       .then((response) => {
         const { message } = response.data;
         fetchProfile();
@@ -249,7 +276,7 @@ const Profile = () => {
   });
   const formikAvatar = useFormik({
     initialValues: {
-      avatar: '',
+      picture: '',
     },
     validationSchema: schemaAvatar,
     onSubmit: async (values) => {
@@ -271,15 +298,21 @@ const Profile = () => {
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.currentTarget.files?.[0];
     if (file) {
-      formikAvatar.setFieldValue('avatar', file);
+      formikAvatar.setFieldValue('picture', file);
       setPreview(URL.createObjectURL(file));
     }
   };
 
   const formDataToPut = async (datad?: any) => {
     const formData = new FormData();
-    formData.append('avatar', datad.avatar);
-    await putUsers(formData);
+    formData.append('picture', datad.picture);
+    await putUsersPicture(formData);
+  };
+
+  const checkAva = async (data: string) => {
+    if (ckAva !== data && data !== undefined) {
+      await setCookie('avatar', data, { path: '/' });
+    }
   };
 
   useEffect(() => {
@@ -704,13 +737,13 @@ const Profile = () => {
                 />
               </div>
               <InputFile
-                id="avatar"
-                name="avatar"
-                label="avatar name"
+                id="picture"
+                name="picture"
+                label="picture name"
                 onChange={handleImageChange}
                 onBlur={formikAvatar.handleBlur}
-                error={formikAvatar.errors.avatar}
-                touch={formikAvatar.touched.avatar}
+                error={formikAvatar.errors.picture}
+                touch={formikAvatar.touched.picture}
               />
 
               <div className="w-full flex justify-end gap-3">
