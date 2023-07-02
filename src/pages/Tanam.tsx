@@ -152,7 +152,7 @@ function Tanam() {
                   <Select
                     id="templateId"
                     name="templateId"
-                    label="templateId Tanaman anda"
+                    label="Pilih Tanaman"
                     value={formikTanam.values.templateId}
                     onChangeSelect={formikTanam.handleChange}
                     onBlur={formikTanam.handleBlur}

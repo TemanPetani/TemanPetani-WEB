@@ -152,7 +152,7 @@ export const Select: FC<SelectProps> = ({
           onChange={onChangeSelect}
           onBlur={onBlur}
         >
-          <option disabled>{label}</option>
+          <option value={""}>{label}</option>
           {children}
         </select>
         <p>

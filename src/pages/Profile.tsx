@@ -580,7 +580,7 @@ const Profile = () => {
                 <Select
                   id="bank"
                   name="bank"
-                  label="Bank"
+                  label="Pilih Bank"
                   value={formikBank.values.bank}
                   onChangeSelect={formikBank.handleChange}
                   onBlur={formikBank.handleBlur}
