@@ -69,7 +69,7 @@ This command will launch the development server and open the application in your
 
 - High Fidelity Design: [Figma](https://www.figma.com/file/SnBKvr8xAkNvItPr1YwfBW/Capstone%3A-TemanPetani?type=design&node-id=928%3A2793&t=Lk4ZlvwnPw4cGlXM-1)
 
-- Deploy : [Vercel](https://)
+- Deploy : [Vercel](https://teman-petani-web.vercel.app/)
 
 ## Contributing
 
