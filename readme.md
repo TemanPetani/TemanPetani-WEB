@@ -15,7 +15,7 @@ Capstone Project at Altera academy
 
 ## About
 
-TemanPetani is a web application that aims to facilitate access to agricultural resources for farmers. With this platform, it can help farmers improve crop yields, reduce distribution costs, and increase profits. this
+TemanPetani is a web application designed to provide convenient access to agricultural resources for farmers. This platform caters to two main actors: the admin and the farmers. As a farmer, you can easily sell your products to the admin through the platform. Additionally, you have the ability to create and manage your plant schedule, including specifying dates for various farming activities. On the other hand, as an admin, you have the authority to create template plant schedules and purchase products directly from the farmers. TemanPetani serves as a seamless bridge between farmers and the admin, offering a streamlined process for selling products and managing farming activities.
 
 ## Prerequisites
 
